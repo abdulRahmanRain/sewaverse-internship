@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
@@ -38,7 +39,24 @@ class HiveStorage {
   // GET ALL TASKS
   static List<Map<String, dynamic>> getTasks() {
     return box.values
-        .map((e) => Map<String, dynamic>.from(e))
+        .map((e) => Map<String, dynamic>.from(e)) ///{id: 11,ti:de}
         .toList();
+  }
+
+  // EDIT TASK
+  static Map<String,dynamic>? getTaskById(String? id){
+
+    final tasks = box.get(id);
+
+    try{
+      if(tasks != null) {
+        return Map<String,dynamic>.from(tasks);
+      }
+    }catch (e){
+      debugPrint("Error: $e");
+    }
+
+
+    return {};
   }
 }

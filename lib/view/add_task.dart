@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/todo_bloc.dart';
 import 'package:todo_app/bloc/todo_event.dart';
 import 'package:todo_app/constants/constants.dart';
+import 'package:todo_app/storage/local_storage/hive_storage.dart';
 
 
 
 
 class TextInput{
 
-  static textField(TextEditingController controller, String label, String hint, ){
+  static Widget textField(TextEditingController controller, String label, String hint, ){
     return TextField(
       controller: controller,
       decoration: InputDecoration(
@@ -35,7 +36,8 @@ class TextInput{
 
 
 class AddTaskPage extends StatefulWidget {
-  const AddTaskPage({super.key});
+  final String? taskId;
+  const AddTaskPage({super.key,this.taskId,});
 
   @override
   State<AddTaskPage> createState() => _AddTaskPageState();
@@ -43,8 +45,26 @@ class AddTaskPage extends StatefulWidget {
 
 class _AddTaskPageState extends State<AddTaskPage> {
 
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _desController = TextEditingController();
+ final TextEditingController _titleController = TextEditingController();
+ final TextEditingController _desController = TextEditingController();
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (widget.taskId!=null) {
+      final task = HiveStorage.getTaskById(widget.taskId);
+      _titleController.text = task!['title'] ?? "";
+      _desController.text = task['description'] ?? "";
+    }
+  }
+  @override void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _titleController.dispose();
+    _desController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,11 +83,16 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 onPressed: (){
                   final title = _titleController.text.trim();
                   final des =_desController.text.trim();
-                  context.read<TodoBloc>().add(
-                    AddTaskEvent(title, des)
-                  );
-                  _titleController.clear();
-                  _desController.clear();
+                  if (widget.taskId!=null){
+                    context.read<TodoBloc>().add(
+                        EditTaskEvent(widget.taskId!,title,des)
+                    );
+                  } else{
+                    context.read<TodoBloc>().add(
+                        AddTaskEvent(title, des)
+                    );
+                  }
+
                 }
                 ,child: Text("Add Task"))
           ],

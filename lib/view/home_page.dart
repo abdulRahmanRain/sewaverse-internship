@@ -73,6 +73,7 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 16),
                         InkWell(
                           onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>AddTaskPage(taskId: task['id'],)));
                           },
                           child: const Text(
                             "Edit",
