@@ -7,7 +7,7 @@ class HiveStorage {
 
   // ADD TASK
   static Future<void> addTask(String title, String description) async {
-    final id = uuid.v4(); // generate id once
+    final id = uuid.v4();
 
     final task = {
       "id": id,
