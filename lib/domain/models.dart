@@ -23,3 +23,17 @@ class PostModel {
     return data;
   }
 }
+
+class UploadModel{
+  String title;
+  UploadModel({required this.title});
+  Map<String,dynamic> toJson(){
+    final Map<String,dynamic> data = new Map<String,dynamic>();
+    data['title'] = this.title;
+    return data;
+  }
+
+  UploadModel.fromJson(Map<String, dynamic> json)
+      : title = json['title'];
+
+}

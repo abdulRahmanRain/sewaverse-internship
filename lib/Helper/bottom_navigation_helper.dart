@@ -1,9 +1,8 @@
+
 import 'package:flutter/material.dart';
 
-
-class WidgetHelper {
-
-  static Widget buildBottomNavBar({
+class BottomNavigationHelper {
+  static Widget buildBottomNavigation({
     required int currentIndex,
     required Function(int) onTap,
   }) {
@@ -13,15 +12,11 @@ class WidgetHelper {
       items: const [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
-          label: "DashBoard",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.note_alt),
-          label: "API",
+          label: 'Home',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
-          label: "Todo App",
+          label: 'Todo App',
         ),
       ],
     );
