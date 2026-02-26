@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class TextInput{
 
-  static Widget textField(TextEditingController controller, String label, String hint, ){
-    return TextField(
+  static Widget textField({
+    required TextEditingController controller,
+    required String label,
+    required String hint,
+    String? Function(String?)? validator
+  }){
+    return TextFormField(
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
@@ -21,6 +26,7 @@ class TextInput{
           borderSide: BorderSide(color: Colors.blue, width: 2),
         ),
       ),
+      validator:validator
     );
   }
 

@@ -17,6 +17,7 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
   final TextEditingController title = TextEditingController();
   final TextEditingController description = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
@@ -45,38 +46,57 @@ class _AddPostState extends State<AddPost> {
           }
         },
         child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                SizedBox(height: AppSpacing.Large),
-          
-                TextInput.textField(
-                    title, "Title", "Enter Your Title"),
-          
-                SizedBox(height: AppSpacing.medium),
-          
-                TextInput.textField(
-                    description, "Description", "Enter Your description"),
-          
-                SizedBox(height: AppSpacing.Large),
-          
-                ElevatedButton(
-                  onPressed: () {
-                    if (title.text.trim().isNotEmpty&&description.text.trim().isNotEmpty){
-                      context.read<PostBloc>().add(
-                        DataPostEvent(title: title.text.trim(), description: description.text.trim()),
-                      );
-                      title.clear();
-                      description.clear();
+          child: Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                children: [
+                  SizedBox(height: AppSpacing.Large),
+
+                  TextInput.textField(
+                      controller: title,
+                      label: "title",
+                      hint: "Enter your title",
+                      validator: (value){
+                        if (value == null|| value.isEmpty){
+                          return "Title cannot be empty";
+                        }
+                      }
+                  ),
+
+                  SizedBox(height: AppSpacing.medium),
+
+                  TextInput.textField(
+                    controller: description,
+                    label: "Description",
+                    hint: "Enter Your description",
+                    validator: (value){
+                      if (value == null|| value.isEmpty){
+                        return "Description cannot be empty";
+                      }
                     }
-          
-                  },
-                  child: Text("Add Post"),
-                ),
-                SizedBox(height: AppSpacing.Large*3,),
-                ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text("Back"))
-              ],
+                  ),
+
+                  SizedBox(height: AppSpacing.Large),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()){
+                        context.read<PostBloc>().add(
+                          DataPostEvent(title: title.text.trim(), description: description.text.trim()),
+                        );
+                        title.clear();
+                        description.clear();
+                      }
+
+                    },
+                    child: Text("Add Post"),
+                  ),
+                  SizedBox(height: AppSpacing.Large*3,),
+                  ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text("Back"))
+                ],
+              ),
             ),
           ),
         ),
