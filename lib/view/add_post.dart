@@ -49,10 +49,10 @@ class _AddPostState extends State<AddPost> {
           child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(AppSpacing.mediumPadding),
               child: Column(
                 children: [
-                  SizedBox(height: AppSpacing.Large),
+                  SizedBox(height: AppSpacing.large),
 
                   TextInput.textField(
                       controller: title,
@@ -78,7 +78,7 @@ class _AddPostState extends State<AddPost> {
                     }
                   ),
 
-                  SizedBox(height: AppSpacing.Large),
+                  SizedBox(height: AppSpacing.large),
 
                   ElevatedButton(
                     onPressed: () {
@@ -93,7 +93,7 @@ class _AddPostState extends State<AddPost> {
                     },
                     child: Text("Add Post"),
                   ),
-                  SizedBox(height: AppSpacing.Large*3,),
+                  SizedBox(height: AppSpacing.large*3,),
                   ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text("Back"))
                 ],
               ),

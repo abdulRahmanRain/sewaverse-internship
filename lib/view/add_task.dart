@@ -74,11 +74,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            SizedBox(height: AppSpacing.Large*3,),
+            SizedBox(height: AppSpacing.large*3,),
             TextInput.textField(_titleController, "Title", "Enter your task title"),
             SizedBox(height: AppSpacing.medium,),
             TextInput.textField(_desController, "Des", "Define your task here"),
-            SizedBox(height: AppSpacing.Large,),
+            SizedBox(height: AppSpacing.large,),
             ElevatedButton(
                 onPressed: (){
                   final title = _titleController.text.trim();
