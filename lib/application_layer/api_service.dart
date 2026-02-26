@@ -1,17 +1,36 @@
 import 'package:dio/dio.dart';
 
 class DioClient {
-  final Dio _dio;
+  late final Dio _dio;
 
-  DioClient({required String baseUrl})
-      : _dio = Dio(BaseOptions(
-    baseUrl: baseUrl,
-    connectTimeout: const Duration(seconds: 10),
-    receiveTimeout: const Duration(seconds: 5),
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  ));
+  DioClient({required String baseUrl}) {
+    _dio = Dio(BaseOptions(
+      baseUrl: baseUrl,
+      connectTimeout: const Duration(seconds: 10),
+      receiveTimeout: const Duration(seconds: 5),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    ));
+    _addInterceptors();
+  }
+
+
+  void _addInterceptors(){
+    _dio.interceptors.add(
+      InterceptorsWrapper(
+        onResponse: (response, handler){
+          print ("Response Received : ${response.statusCode}");
+          return handler.next(response);
+        },
+        onError: (error, handler){
+          print("Error: ${error.message}");
+          return handler.next(error);
+        }
+        o
+      )
+    );
+  }
 
 
   Future<dynamic> get(

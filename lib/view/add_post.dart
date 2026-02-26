@@ -19,6 +19,14 @@ class _AddPostState extends State<AddPost> {
   final TextEditingController description = TextEditingController();
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    title.dispose();
+    description.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocListener<PostBloc, PostState>(
@@ -27,6 +35,7 @@ class _AddPostState extends State<AddPost> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
             );
+
           }
 
           if (state is PostErrorState) {
@@ -35,32 +44,40 @@ class _AddPostState extends State<AddPost> {
             );
           }
         },
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              SizedBox(height: AppSpacing.Large),
-
-              TextInput.textField(
-                  title, "Title", "Enter Your Title"),
-
-              SizedBox(height: AppSpacing.medium),
-
-              TextInput.textField(
-                  description, "Description", "Enter Your description"),
-
-              SizedBox(height: AppSpacing.Large),
-
-              ElevatedButton(
-                onPressed: () {
-                  context.read<PostBloc>().add(
-                    DataPostEvent(title: title.text.trim(), description: description.text.trim()),
-                  );
-                  Navigator.pop(context);
-                },
-                child: Text("Add Post"),
-              ),
-            ],
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              children: [
+                SizedBox(height: AppSpacing.Large),
+          
+                TextInput.textField(
+                    title, "Title", "Enter Your Title"),
+          
+                SizedBox(height: AppSpacing.medium),
+          
+                TextInput.textField(
+                    description, "Description", "Enter Your description"),
+          
+                SizedBox(height: AppSpacing.Large),
+          
+                ElevatedButton(
+                  onPressed: () {
+                    if (title.text.trim().isNotEmpty&&description.text.trim().isNotEmpty){
+                      context.read<PostBloc>().add(
+                        DataPostEvent(title: title.text.trim(), description: description.text.trim()),
+                      );
+                      title.clear();
+                      description.clear();
+                    }
+          
+                  },
+                  child: Text("Add Post"),
+                ),
+                SizedBox(height: AppSpacing.Large*3,),
+                ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text("Back"))
+              ],
+            ),
           ),
         ),
       ),

@@ -76,6 +76,7 @@ class _DashboardHomeState extends State<DashboardHome> {
           },
         ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "dashboard_fab",
         onPressed: () {
           Navigator.push(
             context,
