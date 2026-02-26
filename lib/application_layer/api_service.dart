@@ -27,7 +27,7 @@ class DioClient {
           print("Error: ${error.message}");
           return handler.next(error);
         }
-        o
+
       )
     );
   }
@@ -48,7 +48,7 @@ class DioClient {
   Future<Response> post(String path, {dynamic data}) async {
     try{
       return await _dio.post(path, data: data);
-    } catch(e){
+    } on DioException catch(e){
       throw Exception(e.toString());
     }
   }
