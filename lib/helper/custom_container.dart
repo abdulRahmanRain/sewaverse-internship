@@ -14,6 +14,7 @@ class CustomContainer {
     required VoidCallback onTap,
     required VoidCallback onTapOnLike,
     required VoidCallback onTapOnComment,
+    required VoidCallback postComment,
     required int likeCount,
     required Widget textField,
     required bool isActiveColor
@@ -196,7 +197,7 @@ class CustomContainer {
               children: [
                 Expanded(child: textField),
                 SizedBox(width: AppSpacing.small-5,),
-                customElevatedButton(text: "Post", onPressed: (){})
+                customElevatedButton(text: "Post", onPressed: postComment)
               ],
             ), 
             SizedBox(height: AppSpacing.medium - 5),

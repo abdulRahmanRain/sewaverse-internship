@@ -6,6 +6,7 @@ import 'package:todo_app/constants/app_color.dart';
 import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/constants/users_and_time.dart';
 import 'package:todo_app/helper/custom_container.dart';
+import 'package:todo_app/helper/post_comment.dart';
 import 'package:todo_app/helper/text_fileld_helper.dart';
 import 'package:todo_app/view/add_post.dart';
 
@@ -130,8 +131,13 @@ class _DashboardHomeState extends State<DashboardHome> {
                                     controller: commentControllers[post.id!]!,
                                     label: "comment",
                                     hint: "Enter comment"
-                                )
+                                ),
+
+                                postComment: (){
+                                  PostComment(CommentController: commentControllers[post.id!]!);
+                                }
                               ),
+
 
                               Positioned(
                                 top: 0,

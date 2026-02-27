@@ -6,3 +6,8 @@ class DataPostEvent extends PostEvent {
   String description;
   DataPostEvent({required this.title, required this.description});
 }
+
+class PostCommentEvent extends PostEvent{
+  String comment;
+  PostCommentEvent({required this.comment});
+}

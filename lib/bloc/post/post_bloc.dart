@@ -28,5 +28,15 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         emit(PostErrorState(e.toString()));
       }
     });
+    on<PostCommentEvent>((event, emit) async{
+      try{
+        await _postRepositories.addComment(event.comment);
+        emit(PostAddedState("comment successfully added!"));
+        final response = await _postRepositories.fetchData();
+        emit(PostLoadedState(response));
+      }catch(e){
+        emit(PostErrorState(e.toString()));
+      }
+    });
   }
 }

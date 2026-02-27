@@ -39,5 +39,14 @@ class PostRepositories {
       throw Exception(e.toString());
     }
   }
+
+  Future<void> addComment(String comment) async{
+    try{
+      _dioClient.post(ApiEndpoints.comment,data: {"comment":comment});
+    }
+    catch (e){
+      throw Exception(e.toString());
+    }
+  }
 }
 
