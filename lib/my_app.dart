@@ -5,7 +5,7 @@ import 'package:todo_app/application_layer/api_service.dart';
 import 'package:todo_app/bloc/post/post_event.dart';
 import 'package:todo_app/bloc/todo_bloc.dart';
 import 'package:todo_app/data/post_repositories.dart';
-import 'package:todo_app/view/Dashboard.dart';
+import 'package:todo_app/view/main_page.dart';
 
 import 'bloc/post/post_bloc.dart';
 

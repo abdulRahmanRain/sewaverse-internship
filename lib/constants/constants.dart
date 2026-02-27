@@ -15,5 +15,9 @@ class AppSpacing{
   static double mediumRadius = 16;
   static double largeRadius = 20;
 
+  //user name
+  static String name = "Abdul Rahman";
+  static String time = "3 hours ago";
+
 }
 

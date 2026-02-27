@@ -4,6 +4,7 @@ import 'package:todo_app/bloc/post/post_bloc.dart';
 import 'package:todo_app/bloc/post/post_state.dart';
 import 'package:todo_app/constants/app_color.dart';
 import 'package:todo_app/constants/constants.dart';
+import 'package:todo_app/constants/users_and_time.dart';
 import 'package:todo_app/helper/custom_container.dart';
 import 'package:todo_app/helper/text_fileld_helper.dart';
 import 'package:todo_app/view/add_post.dart';
@@ -17,19 +18,23 @@ class DashboardHome extends StatefulWidget {
 }
 
 class _DashboardHomeState extends State<DashboardHome> {
-  final TextEditingController _textController = TextEditingController();
+
+
+  Map<int, TextEditingController> commentControllers = {};
 
   @override
   void dispose() {
-    _textController.dispose();
+    for (var controller in commentControllers.values) {
+      controller.dispose();
+    }
     super.dispose();
   }
 
-  List<bool> isExpandedList = [];
+  Map<int,bool> isExpandedContent = {};
+  Map<int,bool> isActiveColor = {};
+  Map<int,int> likeCounters = {};
   List<bool> isExpandedComment = [];
-  List<int> likeCounters = [];
 
-  TextEditingController commentController = TextEditingController();
 
 
   @override
@@ -39,15 +44,7 @@ class _DashboardHomeState extends State<DashboardHome> {
       backgroundColor: AppColors.backgroundColor,
       appBar: AppBar(
         title: const Text("Home Screen"),
-        centerTitle: false,
-        actions: [
-          TextButton(onPressed: (){Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddPost(),
-            ),
-          );}, child: Text("Add Post"))
-        ],
+        centerTitle: true
       ),
       body:BlocBuilder<PostBloc, PostState>(
           builder: (context, state) {
@@ -64,16 +61,9 @@ class _DashboardHomeState extends State<DashboardHome> {
             if (state is PostLoadedState) {
               final posts = state.posts;
 
-              if (isExpandedList.length != posts.length) {
-                isExpandedList = List.filled(posts.length, false);
-              }
 
               if (isExpandedComment.length != posts.length) {
                 isExpandedComment = List.filled(posts.length, false);
-              }
-
-              if (likeCounters.length != posts.length) {
-                likeCounters = List.filled(posts.length, 0);
               }
 
               if (posts.isEmpty) {
@@ -81,47 +71,72 @@ class _DashboardHomeState extends State<DashboardHome> {
               }
 
               return Padding(
-                padding: EdgeInsets.all(AppSpacing.medium),
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
                   children: [
-                    SizedBox(height: AppSpacing.small),
+                    ListTile(
+                      contentPadding: EdgeInsets.only(left: 0, right: 0),
+                      title: Text("Add New Post", style: TextStyle(fontWeight: FontWeight.w500,fontSize: 22),),
+                      trailing: IconButton(onPressed: (){}, icon: Icon(Icons.add, size: 30,)),
+                    ),
+                    SizedBox(height: AppSpacing.medium,),
                     Expanded(
                       child: ListView.separated(
                         itemCount: posts.length,
                         separatorBuilder : (context, index) => const SizedBox(height: 20,),
                         itemBuilder: (context, index) {
                           final post = posts[index];
+                          bool isExpanded = isExpandedContent[post.id] ?? false;
+                          bool isActive = isActiveColor[post.id] ?? false;
+                          int likeCount = likeCounters[post.id] ?? 0;
+                          commentControllers.putIfAbsent(
+                            post.id!,
+                                () => TextEditingController(),
+                          );
 
                           return Stack(
                             children: [
                               CustomContainer.build(
-                                title: post.title.toString(),
+                                title: UsersAndTime.name,
                                 body: post.body.toString(),
-                                isExpanded: isExpandedList[index],
+                                isExpanded: isExpanded,
                                 onTap: (){
                                   setState(() {
-                                    isExpandedList[index] = !isExpandedList[index];
+                                    isExpandedContent[post.id!] = !isExpanded;
                                   });
                                 },
-                                onTapOnLike: (){
-                                  setState(() {
-                                    likeCounters[index]++;
-                                  });
-                                },
-                                likeCount: likeCounters[index],
+                                  onTapOnLike: () {
+                                    setState(() {
+
+                                      isActiveColor[post.id!] = !(isActiveColor[post.id!] ?? false);
+
+                                      if (isActiveColor[post.id!] == true) {
+                                        likeCounters[post.id!] = (likeCounters[post.id!] ?? 0) + 1;
+                                      } else {
+                                        likeCounters[post.id!] = (likeCounters[post.id!] ?? 1) - 1;
+                                      }
+
+                                    });
+                                  },
+                                likeCount: likeCount,
+                                isActiveColor: isActive,
                                 onTapOnComment: (){
                                   setState(() {
                                     isExpandedComment[index] =!isExpandedComment[index];
                                   });
                                 },
                                 isExpandedComment: isExpandedComment[index],
-                                textField: TextInput.textField(controller: commentController, label: "comment", hint: "Enter comment")
+                                textField: TextInput.textField(
+                                    controller: commentControllers[post.id!]!,
+                                    label: "comment",
+                                    hint: "Enter comment"
+                                )
                               ),
 
                               Positioned(
                                 top: 0,
                                 right:0,
-                                child: IconButton(onPressed: (){}, icon: Icon(Icons.more_vert)),
+                                child: IconButton(onPressed: (){}, icon: Icon(Icons.more_horiz)),
                               ),
                             ],
                           );
