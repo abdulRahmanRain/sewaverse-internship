@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/constants/users_and_time.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
@@ -17,7 +18,8 @@ class CustomContainer {
     required VoidCallback postComment,
     required int likeCount,
     required Widget textField,
-    required bool isActiveColor
+    required bool isActiveColor,
+    required String imageUrl,
   }) {
     return Container(
       
@@ -85,12 +87,32 @@ class CustomContainer {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              image: DecorationImage(
-                image: NetworkImage('https://thumbs.dreamstime.com/b/idyllic-summer-landscape-clear-mountain-lake-alps-45054687.jpg',),
-                fit: BoxFit.cover
-              )
+              color: Colors.grey[300],
             ),
-
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20), // same radius as container
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Shimmer.fromColors(
+                      baseColor: Colors.grey[200]!,
+                      highlightColor: Colors.white,
+                      child: Container(
+                        height: 120,
+                        width: double.infinity,
+                        color: Colors.white,
+                      )
+                  );
+                },
+                errorBuilder: (context, error, stackTrace) {
+                  return const Center(
+                    child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
+                  );
+                },
+              ),
+            ),
           ),
           Row(
             children: [
@@ -204,6 +226,36 @@ class CustomContainer {
           ],
         ],
       )
+    );
+  }
+
+  static Widget postSkeleton() {
+    return Shimmer.fromColors(
+        baseColor: Colors.grey,
+        highlightColor: Colors.white,
+        child: Container(
+            width: double.infinity,
+            height: 220,
+            padding: EdgeInsets.only(top:  2).add(EdgeInsets.symmetric(horizontal: AppSpacing.mediumPadding-5)),
+            decoration: BoxDecoration(
+              color: Color(0xFFF5F5F5),
+              borderRadius: BorderRadius.circular(AppSpacing.mediumRadius+10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  blurRadius: 8,
+                  spreadRadius: 2,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile()
+            ],
+          ),
+      ),
     );
   }
 }
