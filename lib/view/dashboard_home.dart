@@ -7,6 +7,7 @@ import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/constants/users_and_time.dart';
 import 'package:todo_app/helper/custom_container.dart';
 import 'package:todo_app/helper/post_comment.dart';
+import 'package:todo_app/helper/shimmer_widget.dart';
 import 'package:todo_app/helper/text_fileld_helper.dart';
 
 import '../bloc/post/post_event.dart';
@@ -58,10 +59,13 @@ class _DashboardHomeState extends State<DashboardHome> {
       body: BlocBuilder<PostBloc, PostState>(
         builder: (context, state) {
           if (state is PostLoadingState) {
-            return ListView.separated(
-              itemCount: 5,
-              separatorBuilder: (context, index) => const SizedBox(height: 20),
-              itemBuilder: (context, index) => CustomContainer.postSkeleton(),
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15),
+              child: ListView.separated(
+                itemCount: 5,
+                separatorBuilder: (_, __) => SizedBox(height: 20),
+                itemBuilder: (_, __) => CustomContainer.shimmer(),
+              ),
             );
           }
 
