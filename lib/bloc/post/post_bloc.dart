@@ -11,6 +11,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   PostBloc(this._postRepositories) : super(PostInitialState()) {
     on<FetchPostsEvent>((event, emit) async {
       emit(PostLoadingState());
+      await Future.delayed(const Duration(seconds: 10));
       try {
         final response = await _postRepositories.fetchData();
         emit(PostLoadedState(response));

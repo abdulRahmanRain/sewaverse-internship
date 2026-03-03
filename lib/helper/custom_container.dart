@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/constants/users_and_time.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
@@ -91,22 +89,10 @@ class CustomContainer {
               color: Colors.grey[300],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(20), // same radius as container
+              borderRadius: BorderRadius.circular(20),
               child: Image.network(
                 imageUrl,
                 fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Shimmer.fromColors(
-                      baseColor: Colors.grey[200]!,
-                      highlightColor: Colors.white,
-                      child: Container(
-                        height: 120,
-                        width: double.infinity,
-                        color: Colors.white,
-                      )
-                  );
-                },
                 errorBuilder: (context, error, stackTrace) {
                   return const Center(
                     child: Icon(Icons.broken_image, size: 40, color: Colors.grey),
@@ -231,8 +217,7 @@ class CustomContainer {
   }
 
   static Widget shimmer() {
-    return ShimmerWidget(
-      child: Container(
+    return Container(
         width: double.infinity,
         padding: EdgeInsets.only(top: 2)
             .add(EdgeInsets.symmetric(horizontal: AppSpacing.mediumPadding - 5)),
@@ -240,78 +225,79 @@ class CustomContainer {
           color: Color(0xFFF5F5F5),
           borderRadius: BorderRadius.circular(AppSpacing.mediumRadius + 10),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-
-            // Profile + name
-            ListTile(
-              contentPadding: EdgeInsets.only(left: 0),
-              leading: Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
+        child: ShimmerWidget(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+          
+              // Profile + name
+              ListTile(
+                contentPadding: EdgeInsets.only(left: 0),
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                title: Container(
+                  height: 18,
+                  width: 120,
                   color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(10),
+                ),
+                subtitle: Container(
+                  height: 12,
+                  width: 80,
+                  margin: EdgeInsets.only(top: 5),
+                  color: Colors.grey.shade300,
                 ),
               ),
-              title: Container(
-                height: 18,
-                width: 120,
+          
+              SizedBox(height: 10),
+          
+              // Body placeholder
+              Container(
+                height: 16,
+                width: double.infinity,
                 color: Colors.grey.shade300,
               ),
-              subtitle: Container(
-                height: 12,
-                width: 80,
-                margin: EdgeInsets.only(top: 5),
+              SizedBox(height: 6),
+              Container(
+                height: 16,
+                width: 200,
                 color: Colors.grey.shade300,
               ),
-            ),
-
-            SizedBox(height: 10),
-
-            // Body placeholder
-            Container(
-              height: 16,
-              width: double.infinity,
-              color: Colors.grey.shade300,
-            ),
-            SizedBox(height: 6),
-            Container(
-              height: 16,
-              width: 200,
-              color: Colors.grey.shade300,
-            ),
-
-            SizedBox(height: 12),
-
-            // Image placeholder
-            Container(
-              height: 120,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(20),
+          
+              SizedBox(height: 12),
+          
+              // Image placeholder
+              Container(
+                height: 120,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
-            ),
-
-            SizedBox(height: 12),
-
-            // Buttons row
-            Row(
-              children: [
-                Container(height: 20, width: 40, color: Colors.grey.shade300),
-                SizedBox(width: 20),
-                Container(height: 20, width: 40, color: Colors.grey.shade300),
-                SizedBox(width: 20),
-                Container(height: 20, width: 40, color: Colors.grey.shade300),
-              ],
-            ),
-
-            SizedBox(height: 15),
-          ],
+          
+              SizedBox(height: 12),
+          
+              // Buttons row
+              Row(
+                children: [
+                  Container(height: 20, width: 40, color: Colors.grey.shade300),
+                  SizedBox(width: 20),
+                  Container(height: 20, width: 40, color: Colors.grey.shade300),
+                  SizedBox(width: 20),
+                  Container(height: 20, width: 40, color: Colors.grey.shade300),
+                ],
+              ),
+          
+              SizedBox(height: 15),
+            ],
+          ),
         ),
-      ),
-    );
+      );
   }
 }
