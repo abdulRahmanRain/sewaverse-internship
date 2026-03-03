@@ -20,6 +20,10 @@
 <img width="410" height="720" alt="image" src="https://github.com/user-attachments/assets/3a8c5eb8-fa60-43ff-8ad0-9694c64273cb" />
 
 
+# Updated Skeleton 
+<img width="379" height="750" alt="Screenshot 2026-03-03 162436" src="https://github.com/user-attachments/assets/f693e8cd-a3f6-4d1c-b428-ee2152551512" />
+
+
 A new Flutter project.
 
 ## Getting Started
