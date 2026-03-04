@@ -4,3 +4,6 @@ class ApiEndpoints {
   static const String comment = "$baseUrl/posts/1/comments";
 }
 
+class ApiEndPointsSewaverse{
+  static const String baseUrl ="https://qasewaverse.vercel.app/api/home/featured-services";
+}

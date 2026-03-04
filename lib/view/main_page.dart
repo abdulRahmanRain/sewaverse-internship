@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/helper/bottom_navigation_helper.dart';
 import 'package:todo_app/view/dashboard_home.dart';
+import 'package:todo_app/view/qasewaverse/qasewaverse.dart';
 import 'home_page.dart';
 
 class Dashboard extends StatefulWidget {
@@ -15,6 +16,7 @@ class _DashboardState extends State<Dashboard> {
   final List<Widget> screens = const [
     DashboardHome(),
     HomePage(),
+    Qasewaverse()
   ];
   @override
   Widget build(BuildContext context) {

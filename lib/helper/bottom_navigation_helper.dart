@@ -9,7 +9,7 @@ class BottomNavigationHelper {
     return BottomNavigationBar(
       currentIndex: currentIndex,
       onTap: onTap,
-      items: const [
+      items:  [
         BottomNavigationBarItem(
           icon: Icon(Icons.home),
           label: 'Home',
@@ -17,6 +17,10 @@ class BottomNavigationHelper {
         BottomNavigationBarItem(
           icon: Icon(Icons.person),
           label: 'Todo App',
+        ),
+        BottomNavigationBarItem(
+          icon: Image.asset('assets/sewaLogo.png',height: 40,width: 40,),
+          label: "Sewaverse",
         ),
       ],
     );
