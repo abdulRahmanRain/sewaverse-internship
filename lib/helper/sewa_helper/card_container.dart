@@ -142,7 +142,7 @@ class CardContainer {
                     ),
 
                   // Discount badge
-                  if (discount != null)
+                  if (discountPrice != null)
                     Positioned(
                       top: 2,
                       right: 2,
@@ -153,7 +153,7 @@ class CardContainer {
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Text(
-                          discount.toInt().toString(),
+                          discountPrice.toInt().toString(),
                           style: const TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
