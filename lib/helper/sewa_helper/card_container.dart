@@ -11,7 +11,7 @@ class CardContainer {
     required String providerName,
     required String location,
     required int rating,
-    double? discount,
+    double? discountPrice,
   }) {
 
 
@@ -126,28 +126,16 @@ class CardContainer {
                                 decorationThickness: 1.5,
                               ),
                             ),
-                            if (discount!=null)
-                              ...[
-                                if (discount==0)
-                                  Text(
-                                    "Rs. $price",
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
-                                      height: 28 / 18,
-                                    ),
-                                  ),
-                                Text(
-                                  "Rs. ${price -discount }",
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                    height: 28 / 18,
-                                  ),
+                            if (discountPrice!=null)
+                              Text(
+                                "Rs. ${discountPrice}",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  height: 28 / 18,
                                 ),
-                              ]
+                              ),
                           ],
                         ),
                       ),

@@ -41,21 +41,18 @@ class _QasewaverseState extends State<Qasewaverse> {
 
                   int originalPrice = service.price ?? 0;
                   double discountAmount = service.discount?.amount?.toDouble() ?? 0;
-                  String? discountType = service.discount?.type;
+
 
                   double finalPrice = originalPrice.toDouble();
 
                   if (discountAmount > 0) {
-                    if (discountType == "AMOUNT") {
                       finalPrice = originalPrice - discountAmount;
-                    } else if (discountType == "PERCENT") {
-                      finalPrice = originalPrice * (1 - discountAmount / 100);
-                    }
                   }
 
                   return CardContainer.cardContainer(
                     imgUrl: service.imageUrl ?? "",
-                    price: finalPrice.toInt(),
+                    discountPrice: finalPrice.toDouble(),
+                    price: originalPrice,
                     priceType: service.priceType ?? "",
                     title: service.title ?? "",
                     description: service.description ?? "",
