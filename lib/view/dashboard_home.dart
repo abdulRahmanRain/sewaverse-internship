@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/bloc/post/post_bloc.dart';
-import 'package:todo_app/bloc/post/post_state.dart';
-import 'package:todo_app/constants/app_color.dart';
-import 'package:todo_app/constants/constants.dart';
-import 'package:todo_app/constants/users_and_time.dart';
-import 'package:todo_app/helper/custom_container.dart';
-import 'package:todo_app/helper/post_comment.dart';
-import 'package:todo_app/helper/shimmer_widget.dart';
-import 'package:todo_app/helper/text_fileld_helper.dart';
-
+import '../bloc/post/post_bloc.dart';
 import '../bloc/post/post_event.dart';
+import '../bloc/post/post_state.dart';
+import '../constants/app_color.dart';
+import '../helper/custom_container.dart';
+import '../helper/post_comment.dart';
+import '../helper/shimmer_widget.dart';
+import '../helper/text_fileld_helper.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});
@@ -24,7 +21,7 @@ class _DashboardHomeState extends State<DashboardHome> {
   Map<int, bool> isExpandedContent = {};
   Map<int, bool> isActiveColor = {};
   Map<int, int> likeCounters = {};
-  List<bool> isExpandedComment = [];
+  Map<int, bool> isExpandedComment = {};
 
   final List<String> images = [
     "https://everwallpaper.com/cdn/shop/files/mountain-wallpaper-mural_342090c2-b68e-418b-9a1f-833a6e0f2cb7.jpg?v=1653544541&width=1500",
@@ -32,7 +29,7 @@ class _DashboardHomeState extends State<DashboardHome> {
     "https://external-previewredd.it/PN297qUHBKjGEb-BBAbe2XkMBvjiZHX7cgzlwRUr5_A.jpg?width=640&crop=smart&auto=webp&s=49a5a53671c9c9cdbee95f1ced077b05d3f3a2b8"
   ];
 
-  final List<String> users = ["Abdul Rahman","Rabin Bista","Nabin Raj Joshi"];
+  final List<String> users = ["Abdul Rahman", "Rabin Bista", "Nabin Raj Joshi"];
 
   @override
   void dispose() {
@@ -63,7 +60,7 @@ class _DashboardHomeState extends State<DashboardHome> {
               padding: const EdgeInsets.symmetric(horizontal: 15),
               child: ListView.separated(
                 itemCount: 5,
-                separatorBuilder: (_, __) => SizedBox(height: 20),
+                separatorBuilder: (_, __) => const SizedBox(height: 20),
                 itemBuilder: (_, __) => CustomContainer.shimmer(),
               ),
             );
@@ -75,10 +72,6 @@ class _DashboardHomeState extends State<DashboardHome> {
 
           if (state is PostLoadedState) {
             final posts = state.posts;
-
-            if (isExpandedComment.length != posts.length) {
-              isExpandedComment = List.filled(posts.length, false);
-            }
 
             if (posts.isEmpty) {
               return const Center(child: Text("No Data"));
@@ -99,66 +92,66 @@ class _DashboardHomeState extends State<DashboardHome> {
                       icon: const Icon(Icons.add, size: 30),
                     ),
                   ),
-                  SizedBox(height: AppSpacing.medium),
+                  const SizedBox(height: 16),
                   Expanded(
                     child: ListView.separated(
                       itemCount: posts.length,
                       separatorBuilder: (context, index) => const SizedBox(height: 20),
                       itemBuilder: (context, index) {
                         final post = posts[index];
-                        bool isExpanded = isExpandedContent[post.id] ?? false;
-                        bool isActive = isActiveColor[post.id] ?? false;
-                        int likeCount = likeCounters[post.id] ?? 0;
 
-                        commentControllers.putIfAbsent(
-                          post.id!,
-                              () => TextEditingController(),
-                        );
+                        // Initialize states if not present
+                        commentControllers.putIfAbsent(post.id!, () => TextEditingController());
+                        isExpandedContent.putIfAbsent(post.id!, () => false);
+                        isActiveColor.putIfAbsent(post.id!, () => false);
+                        likeCounters.putIfAbsent(post.id!, () => 0);
+                        isExpandedComment.putIfAbsent(post.id!, () => false);
 
                         String imageUrl = images[index % images.length];
-                        String userName  = users[index % users.length];
+                        String userName = users[index % users.length];
 
                         return Stack(
                           children: [
                             CustomContainer.build(
                               title: userName,
                               body: post.body ?? "",
-                              isExpanded: isExpanded,
+                              isExpanded: isExpandedContent[post.id!]!,
                               onTap: () {
                                 setState(() {
-                                  isExpandedContent[post.id!] = !isExpanded;
+                                  isExpandedContent[post.id!] = !isExpandedContent[post.id!]!;
                                 });
                               },
                               onTapOnLike: () {
                                 setState(() {
-                                  isActiveColor[post.id!] = !(isActiveColor[post.id!] ?? false);
-                                  if (isActiveColor[post.id!] == true) {
-                                    likeCounters[post.id!] =
-                                        (likeCounters[post.id!] ?? 0) + 1;
-                                  } else {
-                                    likeCounters[post.id!] =
-                                        (likeCounters[post.id!] ?? 1) - 1;
-                                  }
+                                  isActiveColor[post.id!] = !(isActiveColor[post.id!]!);
+                                  likeCounters[post.id!] = isActiveColor[post.id!]!
+                                      ? likeCounters[post.id!]! + 1
+                                      : likeCounters[post.id!]! - 1;
                                 });
                               },
-                              likeCount: likeCount,
-                              isActiveColor: isActive,
+                              likeCount: likeCounters[post.id!]!,
+                              isActiveColor: isActiveColor[post.id!]!,
                               onTapOnComment: () {
                                 setState(() {
-                                  isExpandedComment[index] =
-                                  !isExpandedComment[index];
+                                  isExpandedComment[post.id!] = !isExpandedComment[post.id!]!;
                                 });
                               },
-                              isExpandedComment: isExpandedComment[index],
+                              isExpandedComment: isExpandedComment[post.id!]!,
                               textField: TextInput.textField(
                                 controller: commentControllers[post.id!]!,
-                                label: "comment",
+                                label: "Comment",
                                 hint: "Enter comment",
                               ),
                               postComment: () {
-                                PostComment(
-                                  CommentController: commentControllers[post.id!]!,
+                                if (commentControllers[post.id!]!.text.trim().isEmpty) return;
+
+                                context.read<PostBloc>().add(
+                                  PostCommentEvent(
+                                    comment: commentControllers[post.id!]!.text.trim(),
+                                    postId: post.id!,
+                                  ),
                                 );
+
                                 commentControllers[post.id!]!.clear();
                               },
                               imageUrl: imageUrl,

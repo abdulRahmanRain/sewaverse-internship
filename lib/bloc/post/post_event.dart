@@ -1,13 +1,26 @@
 abstract class PostEvent {}
 
+/// Fetch all posts
 class FetchPostsEvent extends PostEvent {}
+
+/// Add a new post
 class DataPostEvent extends PostEvent {
-  String title;
-  String description;
-  DataPostEvent({required this.title, required this.description});
+  final String title;
+  final String description;
+
+  DataPostEvent({
+    required this.title,
+    required this.description,
+  });
 }
 
-class PostCommentEvent extends PostEvent{
-  String comment;
-  PostCommentEvent({required this.comment});
+/// Add a comment to a post
+class PostCommentEvent extends PostEvent {
+  final String comment;
+  final int postId; // Added postId
+
+  PostCommentEvent({
+    required this.comment,
+    required this.postId,
+  });
 }

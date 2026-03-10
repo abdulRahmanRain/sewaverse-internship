@@ -1,5 +1,7 @@
 
-import 'package:todo_app/domain/sewa_model.dart';
+
+
+import '../../domain/models/sewaverse_model.dart';
 
 abstract class SewaState {
 
@@ -13,9 +15,9 @@ class SewaLoading extends SewaState {}
 
 // Loaded state with data
 class SewaLoaded extends SewaState {
-  final List<SewaModel> sewaList;
+  final SewaverseModel sewaModel;
 
-  SewaLoaded(this.sewaList);
+  SewaLoaded(this.sewaModel);
 }
 
 // Error state

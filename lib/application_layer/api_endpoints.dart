@@ -4,6 +4,11 @@ class ApiEndpoints {
   static const String comment = "$baseUrl/posts/1/comments";
 }
 
-class ApiEndPointsSewaverse{
-  static const String baseUrl ="https://qasewaverse.vercel.app/api/home/featured-services";
+class ApiEndPointsSewa{
+  static String baseUrl = "https://qasewaverse.vercel.app/api";
+  static String featuredServiceGroups = "$baseUrl/home/featured-services";
+
+  static String offeredServiceResponse(String id) {
+    return "$baseUrl/public/offered-service/$id";
+  }
 }
