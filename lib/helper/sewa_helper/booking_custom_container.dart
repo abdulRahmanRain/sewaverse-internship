@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/helper/eleveted_button.dart';
 import '../../constants/app_sizes.dart';
 import '../../custom_painter/painter.dart';
 import 'expendable_text.dart';
@@ -62,6 +64,7 @@ class _BookingItemCardState extends State<BookingItemCard> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 70,),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -263,6 +266,12 @@ class _BookingItemCardState extends State<BookingItemCard> {
                   ),
                 ),
               ),
+            ),
+            SizedBox(height: AppSizes.paddingXXL,),
+            Center(
+              child: customElevatedButton(text: "Back", onPressed: (){
+                context.pop();
+              }),
             )
           ],
         ),
