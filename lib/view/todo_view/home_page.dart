@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/bloc/todo_app/todo_event.dart';
 import 'package:todo_app/bloc/todo_app/todo_state.dart';
@@ -73,7 +74,8 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(width: 16),
                         InkWell(
                           onTap: () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>AddTaskPage(taskId: task['id'],)));
+                            final id = task['id'];
+                            context.go('/todoHome/addTaskEdit/$id');
                           },
                           child: const Text(
                             "Edit",
@@ -100,12 +102,7 @@ class _HomePageState extends State<HomePage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddTaskPage(),
-            ),
-          );
+          context.go('/todoHome/addTask');
         },
         child: const Icon(Icons.add),
       ),

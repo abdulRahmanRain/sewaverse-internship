@@ -4,11 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/application_layer/api_endpoints.dart';
 
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
+import 'package:todo_app/config/app_route.dart';
 import 'package:todo_app/data/repository/post_repo/post_repositories.dart';
 
-
-
-import 'package:todo_app/view/main_page.dart';
 
 
 import 'package:todo_app/application_layer/network/dio_client.dart';
@@ -62,12 +60,10 @@ class MyApp extends StatelessWidget {
           create: (context) => BookingBloc(bookingRepository: sewaBookingRepository),
         ),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        // You can decide which screen to show first
-        home: const Dashboard(), // Sewaverse home screen
-        // home: const Dashboard(), // Uncomment if you want todo/post dashboard as first screen
-      ),
+        routerConfig: AppRoute.router,
+      )
     );
   }
 }

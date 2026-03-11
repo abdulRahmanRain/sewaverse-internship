@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/helper/text_field_helper.dart';
 
@@ -21,7 +22,6 @@ class _AddPostState extends State<AddPost> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     title.dispose();
     description.dispose();
     super.dispose();
@@ -94,7 +94,7 @@ class _AddPostState extends State<AddPost> {
                     child: Text("Add Post"),
                   ),
                   SizedBox(height: AppSpacing.large*3,),
-                  ElevatedButton(onPressed: (){Navigator.pop(context);}, child: Text("Back"))
+                  ElevatedButton(onPressed: (){context.pop(context);}, child: Text("Back"))
                 ],
               ),
             ),

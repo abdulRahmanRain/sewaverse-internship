@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/helper/sewa_helper/custom_container.dart';
 import 'package:todo_app/helper/shimmer_widget.dart';
 import '../../../bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
@@ -56,7 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount: 2,
                           separatorBuilder: (_,__) => const SizedBox(width: 10),
                           itemBuilder: (context, serviceIndex) {
-                            return ShimmerWidget(child: SewaCustomContainer.simmer());
+                            return SewaCustomContainer.simmer();
                           }
                       )
                     )
@@ -127,23 +128,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               rating: service.rating ?? 0,
                               discountPrice: originalPrice,
                               discountPercent: discountPercent.toString(),
-                              onBook: () {
-                                if (service.id != null) {
-                                  showModalBottomSheet(
-                                    context: context,
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                    ),
-                                    builder: (context) => BlocProvider.value(
-                                      value: BlocProvider.of<BookingBloc>(context),
-                                      child: BottomSheetPage(
-                                        featuredServiceID: service.id!,
-                                      ),
-                                    ),
-                                  );
+                                onBook: () {
+                                  if (service.id != null) {
+                                    context.go('/sewaHome/booking/${service.id}');
+                                  }
                                 }
-                              }
                             );
                           },
                         ),

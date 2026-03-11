@@ -227,103 +227,105 @@ class SewaCustomContainer {
       ),
       child: SizedBox(
         width: 330,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// IMAGE PLACEHOLDER
-            Container(
-              height: 278.8,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade500,
-                borderRadius: BorderRadius.circular(10),
+        child: ShimmerWidget(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              /// IMAGE PLACEHOLDER
+              Container(
+                height: 278.8,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade500,
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
-            ),
-
-            /// DETAILS PLACEHOLDER
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  /// TITLE PLACEHOLDER
-                  Container(
-                    height: 14,
-                    width: 180,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(4),
+          
+              /// DETAILS PLACEHOLDER
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+          
+                    /// TITLE PLACEHOLDER
+                    Container(
+                      height: 14,
+                      width: 180,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  /// DESCRIPTION PLACEHOLDER
-                  Container(
-                    height: 12,
-                    width: 230,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(4),
+          
+                    const SizedBox(height: 8),
+          
+                    /// DESCRIPTION PLACEHOLDER
+                    Container(
+                      height: 12,
+                      width: 230,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
-                  ),
-
-                  const SizedBox(height: 12),
-
-                  Row(
-                    children: [
-
-                      /// PROVIDER IMAGE PLACEHOLDER
-                      CircleAvatar(
-                        radius: 18,
-                        backgroundColor: Colors.grey.shade300,
-                      ),
-
-                      const SizedBox(width: 8),
-
-                      /// PROVIDER NAME + LOCATION
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 12,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Container(
-                              height: 10,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade300,
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                            ),
-                          ],
+          
+                    const SizedBox(height: 12),
+          
+                    Row(
+                      children: [
+          
+                        /// PROVIDER IMAGE PLACEHOLDER
+                        CircleAvatar(
+                          radius: 18,
+                          backgroundColor: Colors.grey.shade300,
                         ),
-                      ),
-
-                      /// RATING PLACEHOLDER
-                      Container(
-                        height: 20,
-                        width: 20,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade300,
-                          borderRadius: BorderRadius.circular(4),
+          
+                        const SizedBox(width: 8),
+          
+                        /// PROVIDER NAME + LOCATION
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                height: 12,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                              const SizedBox(height: 6),
+                              Container(
+                                height: 10,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+          
+                        /// RATING PLACEHOLDER
+                        Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
