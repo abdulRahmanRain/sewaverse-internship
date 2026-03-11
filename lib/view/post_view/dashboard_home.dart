@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../bloc/post/post_bloc.dart';
-import '../bloc/post/post_event.dart';
-import '../bloc/post/post_state.dart';
-import '../constants/app_color.dart';
-import '../helper/custom_container.dart';
-import '../helper/post_comment.dart';
-import '../helper/shimmer_widget.dart';
-import '../helper/text_fileld_helper.dart';
+import '../../bloc/post_app/post_bloc.dart';
+import '../../bloc/post_app/post_event.dart';
+import '../../bloc/post_app/post_state.dart';
+import '../../constants/app_color.dart';
+import '../../helper/post_helper/custom_container.dart';
+import '../../helper/text_field_helper.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});

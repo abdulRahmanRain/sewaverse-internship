@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/helper/sewa_helper/custom_container.dart';
 import 'package:todo_app/helper/shimmer_widget.dart';
-import '../../../bloc/sewa_bloc/sewa_bloc.dart';
-import '../../../bloc/sewa_bloc/sewa_event.dart';
-import '../../../bloc/sewa_bloc/sewa_state.dart';
-import '../../../bloc/sewa_booking_bloc/booking_bloc.dart';
-import '../../../helper/custom_container.dart';
+import '../../../bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
+import '../../../bloc/sewa_app/sewa_bloc/sewa_event.dart';
+import '../../../bloc/sewa_app/sewa_bloc/sewa_state.dart';
+
+import '../../../bloc/sewa_app/sewa_booking_bloc/booking_bloc.dart';
 import '../booking_screen/booking_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -54,9 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: 2,
-                          separatorBuilder: (_, _) => const SizedBox(width: 10),
+                          separatorBuilder: (_,__) => const SizedBox(width: 10),
                           itemBuilder: (context, serviceIndex) {
-                            return ShimmerWidget(child: CustomContainer.shimmer());
+                            return ShimmerWidget(child: SewaCustomContainer.simmer());
                           }
                       )
                     )

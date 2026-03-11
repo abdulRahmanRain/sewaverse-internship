@@ -1,5 +1,7 @@
 
-import '../../domain/models/offered_service_response.dart';
+
+
+import '../../../domain/models/sewa_model/offered_service_response.dart';
 
 abstract class BookingState {}
 class BookingInitial extends BookingState {}

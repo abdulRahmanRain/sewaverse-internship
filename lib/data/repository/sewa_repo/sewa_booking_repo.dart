@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-import '../../application_layer/api_endpoints.dart';
-import '../../application_layer/network/dio_crud.dart';
-import '../../domain/models/offered_service_response.dart';
+import '../../../application_layer/api_endpoints.dart';
+import '../../../application_layer/network/dio_crud.dart';
+import '../../../domain/models/sewa_model/offered_service_response.dart';
+
 
 
 class BookingRepository {

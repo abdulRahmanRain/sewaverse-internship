@@ -1,4 +1,4 @@
-import 'package:todo_app/domain/models.dart';
+import 'package:todo_app/domain/models/post_model/models.dart';
 
 abstract class PostState {}
 class PostInitialState extends PostState {}

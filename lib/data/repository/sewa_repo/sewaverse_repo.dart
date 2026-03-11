@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:todo_app/application_layer/api_endpoints.dart';
-import '../../application_layer/network/dio_crud.dart';
+import '../../../application_layer/network/dio_crud.dart';
 
-import '../../domain/models/sewaverse_model.dart';
+import '../../../domain/models/sewa_model/sewaverse_model.dart';
 
 class SewaverseRepository {
   final DioCrud dioCrud;

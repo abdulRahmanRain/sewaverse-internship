@@ -1,7 +1,7 @@
 
 
 
-import '../../domain/models/sewaverse_model.dart';
+import '../../../domain/models/sewa_model/sewaverse_model.dart';
 
 abstract class SewaState {
 

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/constants/constants.dart';
-import 'package:todo_app/helper/text_fileld_helper.dart';
+import 'package:todo_app/helper/text_field_helper.dart';
 
-import '../bloc/post/post_bloc.dart';
-import '../bloc/post/post_event.dart';
-import '../bloc/post/post_state.dart';
+import '../../bloc/post_app/post_bloc.dart';
+import '../../bloc/post_app/post_event.dart';
+import '../../bloc/post_app/post_state.dart';
 
 
 class AddPost extends StatefulWidget {

@@ -1,7 +1,7 @@
 
 import 'package:bloc/bloc.dart';
 
-import '../../data/repository/sewaverse_repo.dart';
+import '../../../data/repository/sewa_repo/sewaverse_repo.dart';
 import 'sewa_event.dart';
 import 'sewa_state.dart';
 

@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/bloc/post/post_event.dart';
-import 'package:todo_app/bloc/post/post_state.dart';
-import 'package:todo_app/data/post_repositories.dart';
+import 'package:todo_app/bloc/post_app/post_event.dart';
+import 'package:todo_app/bloc/post_app/post_state.dart';
+import 'package:todo_app/data/repository/post_repo/post_repositories.dart';
 
 class PostBloc extends Bloc<PostEvent, PostState> {
   final PostRepositories _postRepositories;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/bloc/todo_bloc.dart';
-import 'package:todo_app/bloc/todo_event.dart';
+import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
+import 'package:todo_app/bloc/todo_app/todo_event.dart';
 import 'package:todo_app/constants/constants.dart';
 import 'package:todo_app/storage/local_storage/hive_storage.dart';
 

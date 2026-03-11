@@ -1,6 +1,6 @@
 import 'package:todo_app/application_layer/api_endpoints.dart';
-import 'package:todo_app/domain/models.dart';
-import '../application_layer/network/dio_client.dart';
+import 'package:todo_app/domain/models/post_model/models.dart';
+import '../../../application_layer/network/dio_client.dart';
 import 'package:dio/dio.dart';
 
 class PostRepositories {

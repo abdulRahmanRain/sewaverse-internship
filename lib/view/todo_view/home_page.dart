@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todo_app/bloc/todo_bloc.dart';
-import 'package:todo_app/bloc/todo_event.dart';
-import 'package:todo_app/bloc/todo_state.dart';
-import 'package:todo_app/view/add_task.dart';
+import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
+import 'package:todo_app/bloc/todo_app/todo_event.dart';
+import 'package:todo_app/bloc/todo_app/todo_state.dart';
+import 'package:todo_app/view/todo_view/add_task.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});

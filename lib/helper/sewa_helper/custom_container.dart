@@ -219,7 +219,7 @@ class SewaCustomContainer {
   }
 
 
-  static Widget simmmer(){
+  static Widget simmer(){
     return Card(
       elevation: 3,
       shape: RoundedRectangleBorder(

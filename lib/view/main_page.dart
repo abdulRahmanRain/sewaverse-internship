@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/helper/bottom_navigation_helper.dart';
-import 'package:todo_app/view/dashboard_home.dart';
+import 'package:todo_app/view/post_view/dashboard_home.dart';
 import 'package:todo_app/view/sewa_view/home_screen/home_screen.dart';
-import 'home_page.dart';
+import 'todo_view/home_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});

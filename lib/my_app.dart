@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-// Post & Todo
 import 'package:todo_app/application_layer/api_endpoints.dart';
-import 'package:todo_app/bloc/post/post_bloc.dart';
-import 'package:todo_app/bloc/post/post_event.dart';
-import 'package:todo_app/bloc/todo_bloc.dart';
-import 'package:todo_app/data/post_repositories.dart';
+
+import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
+import 'package:todo_app/data/repository/post_repo/post_repositories.dart';
 
 
-// Screens
+
 import 'package:todo_app/view/main_page.dart';
 
-// Dio Client
+
 import 'package:todo_app/application_layer/network/dio_client.dart';
 
 import 'application_layer/network/dio_crud.dart';
-import 'bloc/sewa_bloc/sewa_bloc.dart';
-import 'bloc/sewa_booking_bloc/booking_bloc.dart';
-import 'data/repository/sewa_booking_repo.dart';
-import 'data/repository/sewaverse_repo.dart';
+import 'bloc/post_app/post_bloc.dart';
+import 'bloc/post_app/post_event.dart';
+import 'bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
+import 'bloc/sewa_app/sewa_booking_bloc/booking_bloc.dart';
+import 'data/repository/sewa_repo/sewa_booking_repo.dart';
+import 'data/repository/sewa_repo/sewaverse_repo.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +43,6 @@ class MyApp extends StatelessWidget {
 
     return MultiBlocProvider(
       providers: [
-        // Todo Bloc
         BlocProvider<TodoBloc>(
           create: (context) => TodoBloc(),
         ),
