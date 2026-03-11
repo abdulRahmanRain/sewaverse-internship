@@ -123,7 +123,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 ,child: Text("Add Task")
             ),
             SizedBox(height: AppSizes.paddingXXL,),
-            customElevatedButton(text: "Back to Home", onPressed: (){context.pop();})
+            customElevatedButton(text: "Back Home", onPressed: (){context.pop();})
           ],
         ),
       ),
