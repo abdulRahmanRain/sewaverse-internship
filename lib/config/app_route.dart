@@ -47,7 +47,7 @@ class AppRoute {
               GoRoute(
                 path: 'addTaskEdit/:id',
                 builder: (context, state) {
-                  final taskId = state.pathParameters['taskId'];
+                  final taskId = state.pathParameters['id'];
                   return AddTaskPage(taskId: taskId);
                 },
               ),

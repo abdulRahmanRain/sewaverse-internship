@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/bloc/todo_app/todo_event.dart';
+import 'package:todo_app/constants/app_sizes.dart';
 import 'package:todo_app/constants/constants.dart';
+import 'package:todo_app/helper/eleveted_button.dart';
+import 'package:todo_app/helper/toast_helper.dart';
 import 'package:todo_app/storage/local_storage/hive_storage.dart';
 
 
@@ -49,21 +53,36 @@ class _AddTaskPageState extends State<AddTaskPage> {
  final TextEditingController _desController = TextEditingController();
 
 
+ @override
+ void initState() {
+   super.initState();
+   if (widget.taskId != null) {
+     _loadTask();
+   }
+ }
+
+ Future<void> _loadTask() async {
+   final task = await HiveStorage.getTaskById(widget.taskId!);
+   print('Loaded task: $task'); // <-- Add this
+   if (task != null) {
+     setState(() {
+       _titleController.text = task['title'] ?? "";
+       _desController.text = task['description'] ?? "";
+     });
+   }
+ }
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    if (widget.taskId!=null) {
-      final task = HiveStorage.getTaskById(widget.taskId);
-      _titleController.text = task!['title'] ?? "";
-      _desController.text = task['description'] ?? "";
-    }
-  }
-  @override void dispose() {
+  void dispose() {
     // TODO: implement dispose
     super.dispose();
     _titleController.dispose();
     _desController.dispose();
+  }
+
+
+  void clear(){
+   _titleController.clear();
+   _desController.clear();
   }
 
   @override
@@ -87,14 +106,24 @@ class _AddTaskPageState extends State<AddTaskPage> {
                     context.read<TodoBloc>().add(
                         EditTaskEvent(widget.taskId!,title,des)
                     );
+                    clear();
+                    ToastHelper.show(message: "Task Add successfully");
+
+
                   } else{
                     context.read<TodoBloc>().add(
-                        AddTaskEvent(title, des)
+                        AddTaskEvent(title, des),
                     );
+                    clear();
+                    ToastHelper.show(message: "Task Add successfully");
+
                   }
 
                 }
-                ,child: Text("Add Task"))
+                ,child: Text("Add Task")
+            ),
+            SizedBox(height: AppSizes.paddingXXL,),
+            customElevatedButton(text: "Back to Home", onPressed: (){context.pop();})
           ],
         ),
       ),
