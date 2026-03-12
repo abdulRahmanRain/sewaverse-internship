@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:todo_app/auth_services/is_authenticated.dart';
+import 'package:todo_app/auth_services/auth_service.dart';
 import 'package:todo_app/helper/bottom_navigation_helper.dart';
 import 'package:todo_app/storage/local_storage/hive_storage.dart';
 import 'package:todo_app/view/loggin_page/login_page.dart';
@@ -29,14 +29,14 @@ class AppRoute {
                     context.go('/dashboard');
                     break;
                   case 1:
-                    if (HiveStorage.isUserLoggedIn()){
+                    if (Auth.isAuthenticatedUser){
                       context.go('/todoHome');
                     } else {
                       context.go('/loginPage');
                     }
                     break;
                   case 2:
-                    if (HiveStorage.isUserLoggedIn()){
+                    if (Auth.isAuthenticatedUser){
                       context.go('/sewaHome');
                     } else {
                       context.go('/loginPage');
