@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/config/app_route.dart';
+import 'bloc/login_bloc/login_bloc.dart';
 import 'bloc/post_app/post_bloc.dart';
 import 'bloc/post_app/post_event.dart';
 import 'bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
@@ -35,6 +36,9 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(
           create: (_) => getIt<BookingBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => getIt<LoginBloc>(),
         ),
 
       ],

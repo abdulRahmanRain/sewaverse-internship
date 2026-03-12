@@ -6,6 +6,9 @@ import 'package:todo_app/bloc/todo_app/todo_event.dart';
 import 'package:todo_app/bloc/todo_app/todo_state.dart';
 import 'package:todo_app/view/todo_view/add_task.dart';
 
+import '../../helper/build_app_drawer.dart';
+import '../../storage/local_storage/hive_storage.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -27,9 +30,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        title: const Text("Todo Screen"),
         centerTitle: true,
       ),
+      drawer: buildAppDrawer(context: context, hiveStorage: HiveStorage()),
       body: BlocBuilder<TodoBloc, TodoState>(
         builder: (context, state) {
 

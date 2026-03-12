@@ -2,12 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../bloc/login_bloc/login_state.dart';
+
 class HiveStorage {
   static final box = Hive.box('myBox');
+  static final userBox = Hive.box('userBox');
   static final uuid = Uuid();
 
   // ADD TASK
-  static Future<void> addTask(String title, String description) async {
+  static Future<void> addTask(String title, String description,) async {
     final id = uuid.v4();
 
     final task = {
@@ -58,5 +61,22 @@ class HiveStorage {
 
 
     return {};
+  }
+
+  Future<void> saveUser(String userName) async {
+    await userBox.put('isLoggedIn', true);
+    await userBox.put('userName', userName);
+  }
+
+  static bool isUserLoggedIn() {
+    return userBox.get('isLoggedIn', defaultValue: false);
+  }
+
+  String getUserName() {
+    return userBox.get('userName', defaultValue: '');
+  }
+
+  Future<void> logout() async {
+    await userBox.clear();
   }
 }

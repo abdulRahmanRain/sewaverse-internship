@@ -10,6 +10,7 @@ void main() async{
 
   await Hive.initFlutter();
   await Hive.openBox('myBox');
+  await Hive.openBox('userBox');
   setupDependencies();
   runApp(MyApp());
 }
