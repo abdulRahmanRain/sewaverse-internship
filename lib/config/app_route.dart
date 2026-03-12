@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/helper/bottom_navigation_helper.dart';
+import 'package:todo_app/view/loggin_page/login_page.dart';
 
+import '../services/auth_service.dart';
 import '../view/post_view/dashboard_home.dart';
 import '../view/sewa_view/booking_screen/booking_screen.dart';
 import '../view/sewa_view/home_screen/home_screen.dart';
@@ -22,13 +24,23 @@ class AppRoute {
               onTap: (index) {
                 switch (index) {
                   case 0:
+
                     context.go('/dashboard');
                     break;
                   case 1:
-                    context.go('/todoHome');
+                    if (Auth.isAuthenticatedUser){
+                      context.go('/todoHome');
+                    } else {
+                      context.go('/loginPage');
+                    }
                     break;
                   case 2:
-                    context.go('/sewaHome');
+                    if (Auth.isAuthenticatedUser){
+                      context.go('/sewaHome');
+                    } else {
+                      context.go('/loginPage');
+                    }
+
                     break;
                 }
               },
@@ -41,8 +53,19 @@ class AppRoute {
             builder: (context, state) => const DashboardHome(),
           ),
           GoRoute(
+            path: '/loginPage',
+            builder: (context, state) => LoginPage(),
+          ),
+
+          GoRoute(
             path: '/todoHome',
             builder: (context, state) => const HomePage(),
+            redirect: (context, state) {
+              if (!Auth.isAuthenticatedUser) {
+                return '/loginPage';
+              }
+              return null;
+            },
             routes: [
               GoRoute(
                 path: 'addTaskEdit/:id',
@@ -53,15 +76,19 @@ class AppRoute {
               ),
               GoRoute(
                 path: 'addTask',
-                builder: (context, state) {
-                  return AddTaskPage();
-                },
+                builder: (context, state) => AddTaskPage(),
               ),
             ],
           ),
           GoRoute(
             path: '/sewaHome',
             builder: (context, state) => const HomeScreen(),
+            redirect: (context,state){
+              if (!Auth.isAuthenticatedUser){
+                return '/loginPage';
+              }
+              return null;
+            },
             routes: [
               GoRoute(
                 path: 'booking/:id',
