@@ -4,8 +4,11 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/bloc/todo_app/todo_event.dart';
 import 'package:todo_app/bloc/todo_app/todo_state.dart';
+import 'package:todo_app/constants/app_sizes.dart';
 import 'package:todo_app/view/todo_view/add_task.dart';
 
+import '../../bloc/login_bloc/login_bloc.dart';
+import '../../bloc/login_bloc/login_event.dart';
 import '../../helper/build_app_drawer.dart';
 import '../../storage/local_storage/hive_storage.dart';
 
@@ -33,7 +36,11 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Todo Screen"),
         centerTitle: true,
       ),
-      drawer: buildAppDrawer(context: context, hiveStorage: HiveStorage()),
+      drawer: buildAppDrawer(context: context, hiveStorage: HiveStorage(),onLogOut: (){
+        context.read<LoginBloc>().add(
+          LogOutEvent()
+        );
+      }),
       body: BlocBuilder<TodoBloc, TodoState>(
         builder: (context, state) {
 
@@ -75,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                             style: TextStyle(color: Colors.red),
                           ),
                         ),
-                        const SizedBox(width: 16),
+                        const SizedBox(width: AppSizes.paddingXXL),
                         InkWell(
                           onTap: () {
                             final id = task['id'];

@@ -11,3 +11,5 @@ class LoginFailure extends LoginState {
   final String message;
   LoginFailure({required this.message});
 }
+
+class LogOut extends LoginState{}

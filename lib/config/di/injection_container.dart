@@ -49,7 +49,7 @@ void setupDependencies() {
   );
 
   getIt.registerFactory(
-        () => LoginBloc(hiveStorage: HiveStorage()),
+        () => LoginBloc(),
   );
 
 

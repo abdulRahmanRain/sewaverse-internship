@@ -63,7 +63,7 @@ class HiveStorage {
     return {};
   }
 
-  Future<void> saveUser(String userName) async {
+  static Future<void> saveUser(String userName) async {
     await userBox.put('isLoggedIn', true);
     await userBox.put('userName', userName);
   }
@@ -76,7 +76,7 @@ class HiveStorage {
     return userBox.get('userName', defaultValue: '');
   }
 
-  Future<void> logout() async {
+  static Future<void> logout() async {
     await userBox.clear();
   }
 }

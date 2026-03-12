@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_app/auth_services/is_authenticated.dart';
 import 'package:todo_app/helper/bottom_navigation_helper.dart';
 import 'package:todo_app/storage/local_storage/hive_storage.dart';
 import 'package:todo_app/view/loggin_page/login_page.dart';
@@ -61,7 +62,7 @@ class AppRoute {
             path: '/todoHome',
             builder: (context, state) => const HomePage(),
             redirect: (context, state) {
-              if (!HiveStorage.isUserLoggedIn()) {
+              if (!Auth.isAuthenticatedUser) {
                 return '/loginPage';
               }
               return null;
