@@ -56,9 +56,16 @@ class AppRoute {
             path: '/loginPage',
             builder: (context, state) => LoginPage(),
           ),
+
           GoRoute(
             path: '/todoHome',
             builder: (context, state) => const HomePage(),
+            redirect: (context, state) {
+              if (!HiveStorage.isUserLoggedIn()) {
+                return '/loginPage';
+              }
+              return null;
+            },
             routes: [
               GoRoute(
                 path: 'addTaskEdit/:id',
@@ -69,15 +76,19 @@ class AppRoute {
               ),
               GoRoute(
                 path: 'addTask',
-                builder: (context, state) {
-                  return AddTaskPage();
-                },
+                builder: (context, state) => AddTaskPage(),
               ),
             ],
           ),
           GoRoute(
             path: '/sewaHome',
             builder: (context, state) => const HomeScreen(),
+            redirect: (context,state){
+              if (!HiveStorage.isUserLoggedIn()){
+                return '/loginPage';
+              }
+              return null;
+            },
             routes: [
               GoRoute(
                 path: 'booking/:id',
