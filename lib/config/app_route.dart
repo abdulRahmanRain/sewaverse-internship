@@ -85,7 +85,7 @@ class AppRoute {
             path: '/sewaHome',
             builder: (context, state) => const HomeScreen(),
             redirect: (context,state){
-              if (!HiveStorage.isUserLoggedIn()){
+              if (!Auth.isAuthenticatedUser){
                 return '/loginPage';
               }
               return null;

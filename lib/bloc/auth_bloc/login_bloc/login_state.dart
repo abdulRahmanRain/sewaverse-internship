@@ -12,4 +12,3 @@ class LoginFailure extends LoginState {
   LoginFailure({required this.message});
 }
 
-class LogOut extends LoginState{}

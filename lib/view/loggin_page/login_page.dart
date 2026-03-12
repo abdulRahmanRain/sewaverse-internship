@@ -4,9 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/constants/app_sizes.dart';
 import 'package:todo_app/helper/toast_helper.dart';
 
-import '../../bloc/login_bloc/login_bloc.dart';
-import '../../bloc/login_bloc/login_event.dart';
-import '../../bloc/login_bloc/login_state.dart';
+import '../../bloc/auth_bloc/login_bloc/login_bloc.dart';
+import '../../bloc/auth_bloc/login_bloc/login_event.dart';
+import '../../bloc/auth_bloc/login_bloc/login_state.dart';
 import '../../helper/eleveted_button.dart';
 import '../../helper/text_field_helper.dart';
 
@@ -43,8 +43,6 @@ class _LoginPageState extends State<LoginPage> {
                   context.go("/todoHome");
                 } else if (state is LoginFailure) {
                   ToastHelper.show(message: state.message,bgColor: Colors.red);
-                } else if ( state is LogOut){
-                  context.go("/loginPage");
                 }
               },
               child: Column(
@@ -93,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                               UserLoginEvent(userName: userName,password: password),
                             );
                           } else {
-                            ToastHelper.show(message: "Please fill all fields correctly");
+                            ToastHelper.show(message: "Please fill all fields correctly",bgColor: Colors.red);
                           }
                         },
                       );

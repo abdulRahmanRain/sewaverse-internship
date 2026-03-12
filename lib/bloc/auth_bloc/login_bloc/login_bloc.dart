@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../storage/local_storage/hive_storage.dart';
+import '../../../storage/local_storage/hive_storage.dart';
 import 'login_event.dart';
 import 'login_state.dart';
 
@@ -17,17 +17,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(LoginFailure(message: e.toString()));
       }
     });
-
-    on<LogOutEvent>((event, emit) async {
-      emit (LoginLoading());
-      try{
-        await HiveStorage.logout();
-        emit(LogOut());
-      } catch (e){
-        emit(LoginFailure(message: e.toString()));
-      }
-    }
-    );
   }
 
 }

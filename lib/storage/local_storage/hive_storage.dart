@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../bloc/login_bloc/login_state.dart';
+import '../../bloc/auth_bloc/login_bloc/login_state.dart';
 
 class HiveStorage {
   static final box = Hive.box('myBox');

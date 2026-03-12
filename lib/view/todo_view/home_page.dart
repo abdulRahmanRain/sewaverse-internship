@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_app/bloc/auth_bloc/logout_bloc/logout_bloc.dart';
+import 'package:todo_app/bloc/auth_bloc/logout_bloc/logout_event.dart';
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/bloc/todo_app/todo_event.dart';
 import 'package:todo_app/bloc/todo_app/todo_state.dart';
 import 'package:todo_app/constants/app_sizes.dart';
 import 'package:todo_app/view/todo_view/add_task.dart';
 
-import '../../bloc/login_bloc/login_bloc.dart';
-import '../../bloc/login_bloc/login_event.dart';
+import '../../bloc/auth_bloc/login_bloc/login_bloc.dart';
+import '../../bloc/auth_bloc/login_bloc/login_event.dart';
 import '../../helper/build_app_drawer.dart';
 import '../../storage/local_storage/hive_storage.dart';
 
@@ -37,8 +39,8 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       drawer: buildAppDrawer(context: context, hiveStorage: HiveStorage(),onLogOut: (){
-        context.read<LoginBloc>().add(
-          LogOutEvent()
+        context.read<LogoutBloc>().add(
+          LogoutConfirmed()
         );
       }),
       body: BlocBuilder<TodoBloc, TodoState>(

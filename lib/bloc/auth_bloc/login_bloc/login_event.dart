@@ -7,5 +7,3 @@ class UserLoginEvent extends LoginEvent {
 
   UserLoginEvent({required this.userName, required this.password});
 }
-
-class LogOutEvent extends LoginEvent{}

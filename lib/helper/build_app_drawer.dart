@@ -29,7 +29,7 @@ Drawer buildAppDrawer({
           title: const Text("Logout"),
           onTap: (){
             onLogOut();
-            context.go('/loginPage');
+            context.go("/loginPage");
           },
         ),
       ],
