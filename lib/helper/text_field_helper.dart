@@ -6,13 +6,16 @@ class TextInput{
     required TextEditingController controller,
     required String label,
     required String hint,
+    bool obscureText = false,
     String? Function(String?)? validator
   }){
     return TextFormField(
       controller: controller,
+      obscureText: obscureText,
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,
+
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
           borderSide: BorderSide(color: Colors.blue, width: 2),

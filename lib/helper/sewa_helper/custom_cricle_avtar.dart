@@ -8,6 +8,7 @@ class CustomCircleAvtar {
   static Widget providerAvatar({
     required String providerName,
     required String providerImage,
+   Color bgColor = const Color(0xFF6B7280),
     double radius = AppSizes.avatarNormal,
   }) {
 
@@ -19,6 +20,7 @@ class CustomCircleAvtar {
 
     return CircleAvatar(
       radius: radius,
+      backgroundColor: bgColor,
       backgroundImage:
       providerImage.isNotEmpty ? NetworkImage(providerImage) : null,
       child: providerImage.isEmpty
@@ -27,7 +29,7 @@ class CustomCircleAvtar {
         style: TextStyle(
           fontSize: AppSizes.fontLarge, // use font size constant
           fontWeight: FontWeight.w700,
-          color: const Color(0xFF6B7280),
+          color: Colors.white
         ),
       )
           : null,
