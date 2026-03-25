@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "185698395888",
+    "project_id": "sewaverse-e0d8a",
+    "storage_bucket": "sewaverse-e0d8a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:185698395888:android:606a21eecdc6eeacef8435",
+        "android_client_info": {
+          "package_name": "com.example.todo_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvLgY3Bq4141pJwAX_z4N7r2woYN6eT9I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

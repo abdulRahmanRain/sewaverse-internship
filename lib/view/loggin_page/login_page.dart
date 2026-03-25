@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,6 +9,7 @@ import '../../bloc/auth_bloc/login_bloc/login_bloc.dart';
 import '../../bloc/auth_bloc/login_bloc/login_event.dart';
 import '../../bloc/auth_bloc/login_bloc/login_state.dart';
 import '../../helper/eleveted_button.dart';
+import '../../helper/fcm_helper.dart';
 import '../../helper/text_field_helper.dart';
 
 
@@ -38,9 +40,13 @@ class _LoginPageState extends State<LoginPage> {
           child: Form(
             key: _formKey,
             child: BlocListener<LoginBloc, LoginState>(
-              listener: (context, state) {
-                if (state is LoginSuccess) {
+              listener: (context, state) async {
+                if (state is LoginSuccess)  {
                   context.go("/todoHome");
+                  await FCMHelper.showNotification(
+                      "Login Successful",
+                      "Welcome back, ${_userNameController.text.trim()}!"
+                  );
                 } else if (state is LoginFailure) {
                   ToastHelper.show(message: state.message,bgColor: Colors.red);
                 }
@@ -81,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
 
                       return customElevatedButton(
                         text: "Login",
-                        onPressed: () {
+                        onPressed: () async {
 
                           if(_formKey.currentState!.validate()){
                             final userName = _userNameController.text.trim();
