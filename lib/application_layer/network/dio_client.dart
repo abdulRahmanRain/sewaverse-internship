@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 class DioClient {
   late Dio dio;
 
-  DioClient({required String baseUrl}) {
+  DioClient({required String baseUrl})  {
     dio = Dio(
       BaseOptions(
         baseUrl: baseUrl,

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_app/application_layer/network/dio_crud.dart';
+import 'package:todo_app/bloc/sewaverse_home/sewaverse_bloc.dart';
 
 
 
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/config/app_route.dart';
+import 'package:todo_app/cubit/sewaverse_cubit/sewaverse_cubit.dart';
+import 'package:todo_app/data/repository/sewa_repo/sewaverse_repo.dart';
+import 'package:todo_app/data/repository/sewaverse_home_repo/sewaverse_repo.dart';
+import 'package:todo_app/view/sewa/cubit.dart';
+import 'package:todo_app/view/sewa/home.dart';
 import 'bloc/post_app/post_bloc.dart';
 import 'bloc/post_app/post_event.dart';
 import 'bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
@@ -14,7 +21,9 @@ import 'config/di/injection_container.dart';
 
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final SewaverseRepo repo = SewaverseRepo(DioCrud());
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +44,16 @@ class MyApp extends StatelessWidget {
 
         BlocProvider(
           create: (_) => getIt<BookingBloc>(),
+        ),
+        BlocProvider(
+          create: (_) => SewaverseBloc(repo),
+          child: Home(),
+        ),
+
+
+        BlocProvider(
+          create: (_) => SewaverseCubit(repo),
+          child: CubitHome(),
         ),
 
       ],

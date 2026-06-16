@@ -7,8 +7,16 @@ class ApiEndpoints {
 class ApiEndPointsSewa{
   static String baseUrl = "https://qasewaverse.vercel.app/api";
   static String featuredServiceGroups = "$baseUrl/home/featured-services";
+  static String featuredService = "/home/featured-services";
 
   static String offeredServiceResponse(String id) {
     return "$baseUrl/public/offered-service/$id";
   }
+
+
+}
+
+class UserApi{
+  static String baseUrl  = "https://jsonplaceholder.typicode.com";
+  static String endPoint = "/todos/1";
 }
