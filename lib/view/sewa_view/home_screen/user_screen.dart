@@ -18,6 +18,8 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   final controller = UserController();
   final sumNotifier = ValueNotifier<double>(0);
+  UserResult? latestData;
+  bool oddId = false;
   double sum = 0;
 
   Future<void> fetchUsersNormal() async {
@@ -32,13 +34,15 @@ class _UserScreenState extends State<UserScreen> {
     }
   }
 
+
+
   Future<void> fetchUsersIsolate() async {
     controller.setLoading();
 
     try {
       final data = await loadUsersIsolate();
       sumNotifier.value = data.totalSum;
-      controller.setUsers(data.allUsers);
+      switchUser(data: data);
     } catch (e) {
       controller.setError(e.toString());
     }
@@ -54,6 +58,20 @@ class _UserScreenState extends State<UserScreen> {
     sumNotifier.value = 0;
   }
 
+  void switchUser({UserResult? data}) {
+    if (data != null) {
+      latestData = data;
+    }
+
+    final users = latestData?.allUsers ?? [];
+
+    if (oddId) {
+      controller.oddUserId(users);
+    } else {
+      controller.evenCustomerId(users);
+    }
+  }
+
   void updateUI(List<UserModel> data) {
     final totalSum = data.fold(
       0.0,
@@ -66,6 +84,53 @@ class _UserScreenState extends State<UserScreen> {
 
     controller.setUsers(data);
   }
+
+  final TextEditingController _controller = TextEditingController();
+  List<UserModel> filteredUser = [];
+  bool showSuggestions = false;
+
+  Future<void> _onTextChanged(
+      String input,
+      ) async {
+    if (input.isEmpty) {
+      setState(() {
+        filteredUser = [];
+        showSuggestions = false;
+      });
+      return;
+    }
+
+    final users = controller.state.value.users;
+
+    final results = await compute(
+      searchUsers,
+      SearchInput(
+        users: users,
+        input: input,
+      ),
+    );
+
+    setState(() {
+      filteredUser = results;
+      showSuggestions = true;
+    });
+  }
+
+  void _onSuggestionTap(String fruit) {
+    setState(() {
+      _controller.text = fruit;
+      showSuggestions = false;
+      filteredUser = [];
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +159,62 @@ class _UserScreenState extends State<UserScreen> {
             child: Text("Clear Users"),
           ),
 
+          ElevatedButton(
+            onPressed: (){
+              setState(() {
+                oddId = !oddId;
+
+              });
+              switchUser();
+            },
+            child: Text("Switch users"),
+          ),
+
+          Expanded(
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Column(
+                  children: [
+                    TextField(
+                      controller: _controller,
+                      decoration: const InputDecoration(
+                        labelText: 'Search fruit',
+                        border: OutlineInputBorder(),
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: _onTextChanged,
+                    ),
+              
+                    if (showSuggestions)
+                      Container(
+                        margin: const EdgeInsets.only(top: 4),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                        child: filteredUser.isEmpty
+                            ? const Padding(
+                          padding: EdgeInsets.all(12),
+                          child: Text('No match found'),
+                        )
+                            : Column(
+                          children: filteredUser.map((fruit) {
+                            return ListTile(
+                              title: Text(fruit.customerName),
+                              onTap: () => _onSuggestionTap(fruit.customerName),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+
+
           Expanded(
             child: ValueListenableBuilder<UserState>(
               valueListenable: controller.state,
@@ -120,11 +241,18 @@ class _UserScreenState extends State<UserScreen> {
                   itemCount: state.users.length,
                   itemBuilder: (context, index) {
                     final user = state.users[index];
+                    final id = int.parse(user.customerId.replaceAll(RegExp(r'[^0-9]'), ''))%2;
+
 
                     return ListTile(
                       title: Text(user.customerName),
                       subtitle: Text(user.productName),
-                      trailing: Text("Rs. ${user.totalAmount}"),
+                      trailing: Column(
+                        children: [
+                          Text("Rs. ${user.totalAmount}"),
+                          Text("id. ${id}"),
+                        ],
+                      ),
                     );
                   },
                 );
@@ -135,4 +263,28 @@ class _UserScreenState extends State<UserScreen> {
       ),
     );
   }
+}
+
+
+List<UserModel> searchUsers(
+    SearchInput input,
+    ) {
+  return input.users
+      .where(
+        (user) => user.customerName
+        .toLowerCase()
+        .contains(
+              input.input.toLowerCase(),
+    ),
+  ).take(10).toList();
+}
+
+class SearchInput {
+  final List<UserModel> users;
+  final String input;
+
+  SearchInput({
+    required this.users,
+    required this.input,
+  });
 }
