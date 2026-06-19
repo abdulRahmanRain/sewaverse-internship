@@ -3,7 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:todo_app/data/repository/user_repo.dart';
 import 'package:todo_app/domain/models/UserModel.dart';
+import 'package:todo_app/view/animinition_examples.dart';
+import 'package:todo_app/view/explicit_example.dart';
 import 'package:todo_app/view/sewa_view/home_screen/radar_animination.dart';
+import 'package:todo_app/view/sewa_view/home_screen/user_profile_screen.dart';
 
 import '../../../value_notifier_state/user_controller.dart';
 import '../../../value_notifier_state/user_state.dart';
@@ -26,7 +29,7 @@ class _UserScreenState extends State<UserScreen> {
     controller.setLoading();
 
     try{
-      var data = await loadUsersNormal();
+      final data = await loadUsersNormal();
       controller.setUsers(data);
       updateUI(data);
     } catch (e){
@@ -85,7 +88,7 @@ class _UserScreenState extends State<UserScreen> {
     controller.setUsers(data);
   }
 
-  final TextEditingController _controller = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
   List<UserModel> filteredUser = [];
   bool showSuggestions = false;
 
@@ -116,9 +119,9 @@ class _UserScreenState extends State<UserScreen> {
     });
   }
 
-  void _onSuggestionTap(String fruit) {
+  void _onSuggestionTap(String search) {
     setState(() {
-      _controller.text = fruit;
+      _searchController.text = search;
       showSuggestions = false;
       filteredUser = [];
     });
@@ -126,141 +129,258 @@ class _UserScreenState extends State<UserScreen> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _searchController.dispose();
     super.dispose();
-  }
 
+  }
+  int selectedIndex = -1;
+  bool isBig = false;
+
+  @override
+  void initState() {
+  super.initState();
+
+    _searchController.addListener(() {
+      if (_searchController.text.isEmpty){
+        setState(() {
+          showSuggestions = false;
+        });
+  }
+    });
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Total Sale: $sum"),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          const RadarAnimation(),
-
-          const SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () => fetchUsersNormal(),
-            child: Text("Load Users (Normal)"),
-          ),
-
-          ElevatedButton(
-            onPressed: () => fetchUsersIsolate(),
-            child: Text("Load Users (Isolate)"),
-          ),
-
-          ElevatedButton(
-            onPressed: () => clearUsers(),
-            child: Text("Clear Users"),
-          ),
-
-          ElevatedButton(
-            onPressed: (){
-              setState(() {
-                oddId = !oddId;
-
-              });
-              switchUser();
-            },
-            child: Text("Switch users"),
-          ),
-
-          Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                child: Column(
-                  children: [
-                    TextField(
-                      controller: _controller,
-                      decoration: const InputDecoration(
-                        labelText: 'Search fruit',
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.search),
-                      ),
-                      onChanged: _onTextChanged,
-                    ),
-              
-                    if (showSuggestions)
-                      Container(
-                        margin: const EdgeInsets.only(top: 4),
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey),
-                          borderRadius: BorderRadius.circular(4),
-                        ),
-                        child: filteredUser.isEmpty
-                            ? const Padding(
-                          padding: EdgeInsets.all(12),
-                          child: Text('No match found'),
-                        )
-                            : Column(
-                          children: filteredUser.map((fruit) {
-                            return ListTile(
-                              title: Text(fruit.customerName),
-                              onTap: () => _onSuggestionTap(fruit.customerName),
-                            );
-                          }).toList(),
-                        ),
-                      ),
-                  ],
-                ),
+        leading: InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UserProfileScreen()),
+            );
+          },
+          child: Hero(
+            tag: "myTag",
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(50),
+              child: Image.asset(
+                "assets/img.png",
+                width: 40,
+                height: 40,
+                fit: BoxFit.cover,
               ),
             ),
           ),
+        ),
+        title: Row(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                  child: Column(
+                    children: [
+                      TextField(
+                        controller: _searchController,
+                        decoration: const InputDecoration(
+                          labelText: 'Search ',
+                          border: OutlineInputBorder(),
+                          prefixIcon: Icon(Icons.search),
+                        ),
+                        onChanged: _onTextChanged,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
 
+          ],
+        )
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 10),
+        child: Column(
+          children: [
 
-
-          Expanded(
-            child: ValueListenableBuilder<UserState>(
-              valueListenable: controller.state,
-              builder: (context,state , _) {
-                if (state.isLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                if (state.error != null) {
-                  return Center(
-                    child: Text(state.error!),
-                  );
-                }
-
-                if (state.users.isEmpty) {
-                  return const Center(
-                    child: Text("No Data"),
-                  );
-                }
-
-                return ListView.builder(
-                  itemCount: state.users.length,
-                  itemBuilder: (context, index) {
-                    final user = state.users[index];
-                    final id = int.parse(user.customerId.replaceAll(RegExp(r'[^0-9]'), ''))%2;
-
-
+            AnimatedSwitcher(
+              duration: const Duration(seconds: 1),
+              child: _searchController.text.isEmpty
+                  ? const SizedBox()
+                  : filteredUser.isNotEmpty
+                  ? SizedBox(
+                key: const ValueKey("suggestions"),
+                height: 200,
+                child: ListView(
+                  children: filteredUser.map((user) {
                     return ListTile(
                       title: Text(user.customerName),
-                      subtitle: Text(user.productName),
-                      trailing: Column(
-                        children: [
-                          Text("Rs. ${user.totalAmount}"),
-                          Text("id. ${id}"),
-                        ],
-                      ),
+                      onTap: () => _onSuggestionTap(user.customerName),
                     );
-                  },
+                  }).toList(),
+                ),
+              )
+                  : null
+            ),
+
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RadarAnimation(),
+                Spacer(),
+                Expanded(child: Text("Total Sale: $sum")),
+              ],
+            ),
+
+            const SizedBox(height: 10),
+
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 5,
+                  crossAxisSpacing: 30,
+                  mainAxisSpacing: 30
+              ),
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                final titles = [
+                  "Load Users (Normal)",
+                  "Load Users (Isolate)",
+                  "Clear Users",
+                  "Switch Users",
+                ];
+
+                return AnimatedContainer(
+                  duration: const Duration(seconds: 2),
+                  curve: Curves.bounceInOut,
+                  transform: Matrix4.identity()
+                    ..scale(selectedIndex == index ? 1.2 : 1.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+
+                      switch (index) {
+                        case 0:
+                          fetchUsersNormal();
+                          break;
+                        case 1:
+                          fetchUsersIsolate();
+                          break;
+                        case 2:
+                          clearUsers();
+                          break;
+                        case 3:
+                          setState(() => oddId = !oddId);
+                          switchUser();
+                          break;
+                      }
+                    },
+                    child: Text(titles[index]),
+                  ),
                 );
               },
             ),
-          ),
-        ],
+
+            const SizedBox(height: 20),
+
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  isBig = !isBig;
+                });
+              },
+              child: Text(isBig ? 'Make Small' : 'Make Big'),
+            ),
+
+
+            Expanded(
+              child: ValueListenableBuilder<UserState>(
+                valueListenable: controller.state,
+                builder: (context,state , _) {
+                  if (state.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (state.error != null) {
+                    return Center(
+                      child: Text(state.error!),
+                    );
+                  }
+
+                  if (state.users.isEmpty) {
+                    return const Center(
+                      child: Text("No Data"),
+                    );
+                  }
+
+                  return ListView.builder(
+                    itemCount: state.users.length,
+                    itemBuilder: (context, index) {
+                      final user = state.users[index];
+                      final id = int.parse(user.customerId.replaceAll(RegExp(r'[^0-9]'), ''))%2;
+
+
+                      return  Column(
+                        children: [
+                          ListTile(
+
+                            title: AnimatedDefaultTextStyle(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeInOut,
+                              style: TextStyle(
+                                fontSize: isBig ? 28 : 18,
+                                color: isBig ? Colors.red : Colors.blue,
+                                fontWeight:
+                                isBig ? FontWeight.bold : FontWeight.normal,
+                              ),
+                              child: Text(user.customerName),
+                            ),
+
+                            subtitle: AnimatedDefaultTextStyle(
+                              duration: const Duration(milliseconds: 500),
+                              style: TextStyle(
+                                fontSize: isBig ? 20 : 14,
+                                color: isBig ? Colors.black : Colors.grey,
+                              ),
+                              child: Text(user.productName),
+                            ),
+
+                            trailing: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                AnimatedDefaultTextStyle(
+                                  duration: const Duration(milliseconds: 500),
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.green,
+                                  ),
+                                  child: Text("Rs. ${user.totalAmount}"),
+                                ),
+                                Text("id. $id"),
+                              ],
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
+      floatingActionButton: FloatingActionButton(onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>ExplicitExample()));
+      }),
     );
   }
 }

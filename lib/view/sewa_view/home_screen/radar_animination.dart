@@ -35,7 +35,7 @@ class _RadarAnimationState extends State<RadarAnimation>
       builder: (context, child) {
         return CustomPaint(
           painter: RadarPainter(controller.value),
-          size: const Size(180, 180),
+          size: const Size(80, 80),
         );
       },
     );
