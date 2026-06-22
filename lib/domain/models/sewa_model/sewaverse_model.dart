@@ -1,4 +1,6 @@
-class SewaverseModel {
+import 'package:equatable/equatable.dart';
+
+class SewaverseModel extends Equatable {
   bool? success;
   String? message;
   List<Data>? data;
@@ -25,9 +27,12 @@ class SewaverseModel {
     }
     return data;
   }
+
+  @override
+  List<Object?> get props => [success,message,data];
 }
 
-class Data {
+class Data extends Equatable {
   String? id;
   String? title;
   String? description;
@@ -69,82 +74,105 @@ class Data {
     data['isActive'] = isActive;
     return data;
   }
+
+  @override
+  List<Object?> get props => [id, title,description,services,displayOrder,isActive];
 }
 
-class Services {
-  String? id;
-  String? title;
-  String? subtitle;
-  String? description;
-  String? imageUrl;
-  String? location;
-  int? rating;
-  int? price;
-  String? priceType;
-  String? providerId;
-  String? providerName;
-  String? providerImageUrl;
-  String? linkUrl;
-  Discount? discount;
 
-  Services(
-      {this.id,
-        this.title,
-        this.subtitle,
-        this.description,
-        this.imageUrl,
-        this.location,
-        this.rating,
-        this.price,
-        this.priceType,
-        this.providerId,
-        this.providerName,
-        this.providerImageUrl,
-        this.linkUrl,
-        this.discount});
+class Services extends Equatable {
+  final String? id;
+  final String? title;
+  final String? subtitle;
+  final String? description;
+  final String? imageUrl;
+  final String? location;
+  final int? rating;
+  final int? price;
+  final String? priceType;
+  final String? providerId;
+  final String? providerName;
+  final String? providerImageUrl;
+  final String? linkUrl;
+  final Discount? discount;
 
-  Services.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    subtitle = json['subtitle'];
-    description = json['description'];
-    imageUrl = json['imageUrl'];
-    location = json['location'];
-    rating = json['rating'];
-    price = json['price'];
-    priceType = json['priceType'];
-    providerId = json['providerId'];
-    providerName = json['providerName'];
-    providerImageUrl = json['providerImageUrl'];
-    linkUrl = json['linkUrl'];
-    discount = json['discount'] != null
-        ? Discount.fromJson(json['discount'])
-        : null;
+  const Services({
+    this.id,
+    this.title,
+    this.subtitle,
+    this.description,
+    this.imageUrl,
+    this.location,
+    this.rating,
+    this.price,
+    this.priceType,
+    this.providerId,
+    this.providerName,
+    this.providerImageUrl,
+    this.linkUrl,
+    this.discount,
+  });
+
+  factory Services.fromJson(Map<String, dynamic> json) {
+    return Services(
+      id: json['id'],
+      title: json['title'],
+      subtitle: json['subtitle'],
+      description: json['description'],
+      imageUrl: json['imageUrl'],
+      location: json['location'],
+      rating: json['rating'],
+      price: json['price'],
+      priceType: json['priceType'],
+      providerId: json['providerId'],
+      providerName: json['providerName'],
+      providerImageUrl: json['providerImageUrl'],
+      linkUrl: json['linkUrl'],
+      discount: json['discount'] != null
+          ? Discount.fromJson(json['discount'])
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['title'] = title;
-    data['subtitle'] = subtitle;
-    data['description'] = description;
-    data['imageUrl'] = imageUrl;
-    data['location'] = location;
-    data['rating'] = rating;
-    data['price'] = price;
-    data['priceType'] = priceType;
-    data['providerId'] = providerId;
-    data['providerName'] = providerName;
-    data['providerImageUrl'] = providerImageUrl;
-    data['linkUrl'] = linkUrl;
-    if (discount != null) {
-      data['discount'] = discount!.toJson();
-    }
-    return data;
+    return {
+      'id': id,
+      'title': title,
+      'subtitle': subtitle,
+      'description': description,
+      'imageUrl': imageUrl,
+      'location': location,
+      'rating': rating,
+      'price': price,
+      'priceType': priceType,
+      'providerId': providerId,
+      'providerName': providerName,
+      'providerImageUrl': providerImageUrl,
+      'linkUrl': linkUrl,
+      'discount': discount?.toJson(),
+    };
   }
+
+  @override
+  List<Object?> get props => [
+    id,
+    title,
+    subtitle,
+    description,
+    imageUrl,
+    location,
+    rating,
+    price,
+    priceType,
+    providerId,
+    providerName,
+    providerImageUrl,
+    linkUrl,
+    discount,
+  ];
 }
 
-class Discount {
+class Discount extends Equatable {
   int? amount;
   String? type;
 
@@ -161,4 +189,6 @@ class Discount {
     data['type'] = type;
     return data;
   }
+  @override
+  List<Object?> get props => [amount, type];
 }

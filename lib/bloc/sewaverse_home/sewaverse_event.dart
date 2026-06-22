@@ -1,3 +1,11 @@
-abstract class SewaverseEvent {}
+import 'package:equatable/equatable.dart';
 
-class LoadServices extends SewaverseEvent {}
+abstract class SewaverseEvent extends Equatable {
+  const SewaverseEvent();
+
+  @override
+  List<Object?> get props => [];
+}
+class LoadServices extends SewaverseEvent {
+  const LoadServices();
+}
