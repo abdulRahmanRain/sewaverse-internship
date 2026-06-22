@@ -75,6 +75,7 @@ flutter:
   assets:
     - assets/
     - assets/json/Amazon_1-level_46-MB_minified.json
+    - assets/json/15mb.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

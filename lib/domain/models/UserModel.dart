@@ -1,4 +1,6 @@
-class UserModel {
+import 'package:equatable/equatable.dart';
+
+class UserModel extends Equatable {
   final String orderId;
   final String orderDate;
   final String customerId;
@@ -20,7 +22,7 @@ class UserModel {
   final String country;
   final String sellerId;
 
-  UserModel({
+  const UserModel({
     required this.orderId,
     required this.orderDate,
     required this.customerId,
@@ -92,4 +94,14 @@ class UserModel {
       "SellerID": sellerId,
     };
   }
+
+  @override
+  List<Object?> get props => [
+    orderId,
+    customerId,
+    customerName,
+    productId,
+    productName,
+    totalAmount,
+  ];
 }
