@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:todo_app/view/Login/switch_account.dart';
 
 import '../../bloc/user_mode/user_mode_bloc.dart';
 import '../../bloc/user_mode/user_mode_event.dart';
@@ -13,6 +15,10 @@ class UserHomeScreen extends StatefulWidget {
 }
 
 class _UserHomeScreenState extends State<UserHomeScreen> {
+
+  final _authBox = Hive.box('authBox');
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,32 +38,20 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
             child: const Icon(Icons.download),
           ),
 
-          const SizedBox(height: 10),
-
-          FloatingActionButton(
-            heroTag: "refresh",
-            onPressed: () {
-              context.read<UserModeBloc>().add(RefreshUsers());
-            },
-            child: const Icon(Icons.refresh),
-          ),
 
           const SizedBox(height: 10),
 
           FloatingActionButton(
             heroTag: "switch",
-            onPressed: () {
-              final bloc = context.read<UserModeBloc>();
-              final state = bloc.state;
 
-              if (state is! UserLoaded) return;
 
-              final newType =
-              state.userType == 'Normal'
-                  ? 'Premium'
-                  : 'Normal';
-
-              bloc.add(ChangeUserType(newType));
+            onPressed: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SwitchAccountScreen(),
+                ),
+              );
             },
             child: const Icon(Icons.swap_horiz),
           ),
@@ -81,6 +75,21 @@ class _UserHomeScreenState extends State<UserHomeScreen> {
                   title: Text(item.name),
                   subtitle: Text(item.email),
                   trailing: Text(item.phone),
+                );
+              },
+            );
+          }
+
+          if (state is PremiumUserLoaded) {
+            return ListView.builder(
+              itemCount: state.premiumUsers.length,
+              itemBuilder: (context, index) {
+                final item = state.premiumUsers[index];
+
+                return ListTile(
+                  title: Text(item.customerName),
+                  subtitle: Text(item.productName),
+                  trailing: Text(item.category),
                 );
               },
             );

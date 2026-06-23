@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 
+import '../../domain/models/UserModel.dart';
 import '../../domain/models/user_model_2.dart';
 
 abstract class UserModeState extends Equatable {
@@ -30,6 +31,14 @@ class UserLoaded extends UserModeState {
 
   @override
   List<Object?> get props => [users, userType];
+}
+
+class PremiumUserLoaded extends UserModeState{
+  final List<UserModel> premiumUsers;
+  const PremiumUserLoaded({
+    required this.premiumUsers,
+    required String userType
+}) : super(userType: userType);
 }
 
 class UserError extends UserModeState {

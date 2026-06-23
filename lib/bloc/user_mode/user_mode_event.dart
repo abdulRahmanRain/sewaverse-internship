@@ -9,12 +9,10 @@ abstract class UserModeEvent extends Equatable {
 
 class FetchUsers extends UserModeEvent {}
 
-class RefreshUsers extends UserModeEvent {}
-
 class ChangeUserType extends UserModeEvent {
   final String userType;
 
-  const ChangeUserType(this.userType);
+  const ChangeUserType({required this.userType});
 
   @override
   List<Object?> get props => [userType];

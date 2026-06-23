@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
 
 import '../../data/repository/user_mode_repo.dart';
+import '../../domain/models/UserModel.dart';
 import '../../domain/models/user_model_2.dart';
 import 'user_mode_event.dart';
 import 'user_mode_state.dart';
@@ -10,12 +11,12 @@ class UserModeBloc extends Bloc<UserModeEvent, UserModeState> {
   final UserRepository repository;
 
   List<UserModel2> _users = [];
+  List<UserModel> _premiumUsers = [];
   String _currentType = 'Normal';
 
   UserModeBloc({required this.repository})
       : super(const UserInitial()) {
     on<FetchUsers>(_onFetchUsers);
-    on<RefreshUsers>(_onRefreshUsers);
     on<ChangeUserType>(_onChangeUserType);
   }
 
@@ -28,27 +29,27 @@ class UserModeBloc extends Bloc<UserModeEvent, UserModeState> {
 
     emit(UserLoading(userType: _currentType));
 
-    _users = await repository.loadUsersNormal();
 
-    emit(UserLoaded(
-      users: _users,
-      userType: _currentType,
-    ));
-  }
-
-
-  Future<void> _onRefreshUsers(
-      RefreshUsers event,
-      Emitter<UserModeState> emit,
-      ) async {
-    emit(UserLoading(userType: _currentType));
 
     _users = await repository.loadUsersNormal();
+    _premiumUsers = await repository.loadPremiumUser();
 
-    emit(UserLoaded(
-      users: _users,
-      userType: _currentType,
-    ));
+    if (_currentType == "Normal") {
+      emit(
+        UserLoaded(
+          users: _users,
+          userType: _currentType,
+        ),
+      );
+    } else {
+      emit(
+        PremiumUserLoaded(
+          premiumUsers: _premiumUsers,
+          userType: _currentType,
+        ),
+      );
+    }
+
   }
 
 

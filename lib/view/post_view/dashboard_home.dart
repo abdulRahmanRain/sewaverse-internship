@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:todo_app/view/Login/login_screen.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
@@ -7,6 +8,7 @@ import '../../bloc/post_app/post_state.dart';
 import '../../constants/app_color.dart';
 import '../../helper/post_helper/custom_container.dart';
 import '../../helper/text_field_helper.dart';
+import '../Login/user_home_screen.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});
@@ -44,6 +46,9 @@ class _DashboardHomeState extends State<DashboardHome> {
     context.read<PostBloc>().add(FetchPostsEvent());
   }
 
+  final _authBox = Hive.box('authBox');
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,13 +77,23 @@ class _DashboardHomeState extends State<DashboardHome> {
               onTap: () {
                 Navigator.pop(context);
 
-                // navigate to login screen
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
+                final currentUser = _authBox.get('currentUser');
+
+                if (currentUser != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const UserHomeScreen(),
+                    ),
+                  );
+                } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LoginScreen(),
+                    ),
+                  );
+                }
               },
             ),
           ],
