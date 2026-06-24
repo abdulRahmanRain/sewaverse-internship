@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/bloc/sewaverse_home/sewaverse_bloc.dart';
 import 'package:todo_app/bloc/sewaverse_home/sewaverse_state.dart';
+import 'package:todo_app/view/sewaverse_home_card/sewaverse_home_card_cubit.dart';
 import '../../bloc/sewaverse_home/sewaverse_event.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class SewaverseHomeCard extends StatefulWidget {
+  const SewaverseHomeCard({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<SewaverseHomeCard> createState() => _SewaverseHomeCardState();
 }
 
-class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
+class _SewaverseHomeCardState extends State<SewaverseHomeCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
   late Animation<double> _fadeAnimation;
@@ -50,6 +51,11 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
       appBar: AppBar(
         title: const Text("Sewaverse Home"),
         centerTitle: true,
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(context,MaterialPageRoute(builder: (context)=>SewaverseHomeCardCubit()));
+          }, icon: Icon(Icons.cameraswitch))
+        ],
       ),
       body: BlocBuilder<SewaverseBloc, SewaverseState>(
         builder: (context, state) {
@@ -207,6 +213,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           }
 
           return const SizedBox();
+
         },
       ),
       floatingActionButton: FloatingActionButton(onPressed: (){
@@ -216,6 +223,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
           _controller.forward();
         }
       }),
+
     );
   }
 }

@@ -39,15 +39,15 @@ class TextInput{
 }
 
 
-class AddTaskPage extends StatefulWidget {
+class TodoAddTask extends StatefulWidget {
   final String? taskId;
-  const AddTaskPage({super.key,this.taskId,});
+  const TodoAddTask({super.key,this.taskId,});
 
   @override
-  State<AddTaskPage> createState() => _AddTaskPageState();
+  State<TodoAddTask> createState() => _TodoAddTaskState();
 }
 
-class _AddTaskPageState extends State<AddTaskPage> {
+class _TodoAddTaskState extends State<TodoAddTask> {
 
  final TextEditingController _titleController = TextEditingController();
  final TextEditingController _desController = TextEditingController();

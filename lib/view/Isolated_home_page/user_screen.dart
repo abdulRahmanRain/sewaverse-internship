@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:todo_app/data/repository/user_repo.dart';
 import 'package:todo_app/domain/models/UserModel.dart';
-import 'package:todo_app/view/animinition_examples.dart';
-import 'package:todo_app/view/explicit_example.dart';
-import 'package:todo_app/view/sewa_view/home_screen/radar_animination.dart';
-import 'package:todo_app/view/sewa_view/home_screen/user_profile_screen.dart';
+import 'package:todo_app/view/animinition_examples/animinition_examples.dart';
+import 'package:todo_app/view/animinition_examples/explicit_example.dart';
+import 'package:todo_app/view/Isolated_home_page/radar_animination.dart';
+import 'package:todo_app/view/Isolated_home_page/user_profile_screen.dart';
 
-import '../../../value_notifier_state/user_controller.dart';
-import '../../../value_notifier_state/user_state.dart';
+import '../../value_notifier_state/user_controller.dart';
+import '../../value_notifier_state/user_state.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});
@@ -228,7 +228,6 @@ class _UserScreenState extends State<UserScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const RadarAnimation(),
                 Spacer(),
                 Expanded(child: Text("Total Sale: $sum")),
               ],

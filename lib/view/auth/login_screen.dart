@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:todo_app/view/Login/sing_up.dart';
+import 'package:todo_app/view/auth/sing_up.dart';
 
 import 'user_home_screen.dart';
 
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Login"),
+        title: const Text("auth"),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 50,
               child: ElevatedButton(
                 onPressed: _login,
-                child: const Text("Login"),
+                child: const Text("auth"),
               ),
             ),
 

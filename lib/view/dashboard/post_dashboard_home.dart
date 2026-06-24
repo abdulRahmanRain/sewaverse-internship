@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
-import 'package:todo_app/view/Login/login_screen.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
 import '../../bloc/post_app/post_state.dart';
 import '../../constants/app_color.dart';
 import '../../helper/post_helper/custom_container.dart';
 import '../../helper/text_field_helper.dart';
-import '../Login/user_home_screen.dart';
+import '../auth/login_screen.dart';
+import '../auth/user_home_screen.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});
@@ -73,7 +73,7 @@ class _DashboardHomeState extends State<DashboardHome> {
 
             ListTile(
               leading: const Icon(Icons.login),
-              title: const Text("Login"),
+              title: const Text("auth"),
               onTap: () {
                 Navigator.pop(context);
 
@@ -134,7 +134,9 @@ class _DashboardHomeState extends State<DashboardHome> {
                       style: TextStyle(fontWeight: FontWeight.w500, fontSize: 22),
                     ),
                     trailing: IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+
+                      },
                       icon: const Icon(Icons.add, size: 30),
                     ),
                   ),

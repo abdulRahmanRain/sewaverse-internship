@@ -3,21 +3,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:todo_app/helper/sewa_helper/custom_container.dart';
 import 'package:todo_app/helper/shimmer_widget.dart';
-import '../../../bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
-import '../../../bloc/sewa_app/sewa_bloc/sewa_event.dart';
-import '../../../bloc/sewa_app/sewa_bloc/sewa_state.dart';
+import '../../bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
+import '../../bloc/sewa_app/sewa_bloc/sewa_event.dart';
+import '../../bloc/sewa_app/sewa_bloc/sewa_state.dart';
 
-import '../../../bloc/sewa_app/sewa_booking_bloc/booking_bloc.dart';
-import '../booking_screen/booking_screen.dart';
+import '../../bloc/sewa_app/sewa_booking_bloc/booking_bloc.dart';
+import 'booking_screen/booking_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class FeaturedSewaHomeScreen extends StatefulWidget {
+  const FeaturedSewaHomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<FeaturedSewaHomeScreen> createState() => _FeaturedSewaHomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _FeaturedSewaHomeScreenState extends State<FeaturedSewaHomeScreen> {
 
   @override
   void initState() {

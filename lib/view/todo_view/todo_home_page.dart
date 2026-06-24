@@ -4,16 +4,16 @@ import 'package:go_router/go_router.dart';
 import 'package:todo_app/bloc/todo_app/todo_bloc.dart';
 import 'package:todo_app/bloc/todo_app/todo_event.dart';
 import 'package:todo_app/bloc/todo_app/todo_state.dart';
-import 'package:todo_app/view/todo_view/add_task.dart';
+import 'package:todo_app/view/todo_view/todo_add_task.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class TodoHomePage extends StatefulWidget {
+  const TodoHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<TodoHomePage> createState() => _TodoHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _TodoHomePageState extends State<TodoHomePage> {
 
   @override
   void initState() {
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home Screen"),
+        title: const Text("Todo Home Screen"),
         centerTitle: true,
       ),
       body: BlocBuilder<TodoBloc, TodoState>(
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go('/todoHome/addTask');
+          context.go('/addTask');
         },
         child: const Icon(Icons.add),
       ),

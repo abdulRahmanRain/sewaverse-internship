@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/cubit/sewaverse_cubit/sewaverse_state_cubit.dart';
 import '../../cubit/sewaverse_cubit/sewaverse_cubit.dart';
 
-class CubitHome extends StatefulWidget {
-  const CubitHome({super.key});
+class SewaverseHomeCardCubit extends StatefulWidget {
+  const SewaverseHomeCardCubit({super.key});
 
   @override
-  State<CubitHome> createState() => _CubitHomeState();
+  State<SewaverseHomeCardCubit> createState() => _SewaverseHomeCardCubitState();
 }
 
-class _CubitHomeState extends State<CubitHome> {
+class _SewaverseHomeCardCubitState extends State<SewaverseHomeCardCubit> {
 
   @override
   void initState() {

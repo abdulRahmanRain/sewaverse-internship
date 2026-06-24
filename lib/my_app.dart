@@ -10,15 +10,16 @@ import 'package:todo_app/config/app_route.dart';
 import 'package:todo_app/cubit/sewaverse_cubit/sewaverse_cubit.dart';
 import 'package:todo_app/data/repository/sewa_repo/sewaverse_repo.dart';
 import 'package:todo_app/data/repository/sewaverse_home_repo/sewaverse_repo.dart';
-import 'package:todo_app/view/Login/user_home_screen.dart';
-import 'package:todo_app/view/sewa/cubit.dart';
-import 'package:todo_app/view/sewa/home.dart';
+import 'package:todo_app/view/auth/user_home_screen.dart';
+import 'package:todo_app/view/sewaverse_home_card/sewaverse_home_card.dart';
+import 'package:todo_app/view/sewaverse_home_card/sewaverse_home_card_cubit.dart';
 import 'bloc/post_app/post_bloc.dart';
 import 'bloc/post_app/post_event.dart';
 import 'bloc/sewa_app/sewa_bloc/sewa_bloc.dart';
 import 'bloc/sewa_app/sewa_booking_bloc/booking_bloc.dart';
 import 'bloc/user_mode/user_mode_bloc.dart';
 import 'bloc/user_mode/user_mode_event.dart';
+import 'config/app_route.dart' as AppRoute;
 import 'config/di/injection_container.dart';
 import 'data/repository/user_mode_repo.dart';
 
@@ -59,13 +60,13 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => SewaverseBloc(repo),
-          child: Home(),
+          child: SewaverseHomeCard(),
         ),
 
 
         BlocProvider(
           create: (_) => SewaverseCubit(repo),
-          child: CubitHome(),
+          child: SewaverseHomeCardCubit(),
         ),
 
       ],
