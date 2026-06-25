@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:todo_app/constants/theme.dart';
 import 'package:todo_app/view/full_auth_screen/splash_screen.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
@@ -107,6 +108,22 @@ class _DashboardHomeState extends State<DashboardHome> {
                   MaterialPageRoute(
                     builder: (_) => const SplashScreen(),
                   ),
+                );
+              },
+            ),
+            const SizedBox(height: 20,),
+            ValueListenableBuilder<ThemeMode>(
+              valueListenable: ThemeManager.themeMode,
+              builder: (context, mode, child) {
+                return SwitchListTile(
+                  title: const Text("Dark Mode"),
+                  value: mode == ThemeMode.dark,
+                  onChanged: (value) {
+                    ThemeManager.themeMode.value =
+                    value
+                        ? ThemeMode.dark
+                        : ThemeMode.light;
+                  },
                 );
               },
             )

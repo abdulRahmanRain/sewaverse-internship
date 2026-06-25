@@ -10,11 +10,12 @@ class CustomIconContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final themeColor = Theme.of(context).colorScheme;
     return Container(
       height: 50,
       width: 60,
       decoration: BoxDecoration(
-        color: Colors.white54,
+        color: themeColor.secondary,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(

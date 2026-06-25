@@ -35,6 +35,7 @@ class CustomGrayvolfBack extends StatelessWidget {
           logoPath,
           height: 24,
           width: 91.2,
+          color: Theme.of(context).colorScheme.secondary
         ),
       ],
     );

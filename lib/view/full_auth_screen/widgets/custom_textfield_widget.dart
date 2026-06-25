@@ -36,8 +36,10 @@ class CustomTextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return TextFormField(
       controller: controller,
+      style: textTheme.labelMedium?.copyWith(color: Colors.black,fontSize: 16),
       validator: validator,
       textAlign: textAlign,
       maxLength: maxLength,

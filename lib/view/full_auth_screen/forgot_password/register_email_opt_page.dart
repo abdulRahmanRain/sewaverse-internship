@@ -36,6 +36,7 @@ class _RegisterEmailOptPageState extends State<RegisterEmailOptPage> {
       otpControllers.map((e) => e.text).join();
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
         children: [
@@ -69,13 +70,7 @@ class _RegisterEmailOptPageState extends State<RegisterEmailOptPage> {
                       child: Text(
                         "Forgot Password?",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: Color(0xFF0A66C2),
-                        ),
+                        style: textTheme.headlineLarge
                       ),
                     ),
                     const SizedBox(height: 30,),
@@ -83,25 +78,13 @@ class _RegisterEmailOptPageState extends State<RegisterEmailOptPage> {
                       child: Text(
                         "Welcome back you've\nbeen missed!",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
-                          height: 1.2,
-                          letterSpacing: 0.15,
-                        ),
+                        style: textTheme.headlineMedium
                       ),
                     ),
                     const SizedBox(height: 20,),
                     Text(
                       "We’ve sent the OTP to your register email address. suf********@email.com",
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        height: 1.5,
-                        letterSpacing: 0,
-                        color: Color(0xFF666666),
-                      ),
+                      style: textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400,height: 1.4)
                     ),
                     const SizedBox(height: 30,),
                     Row(
@@ -140,14 +123,7 @@ class _RegisterEmailOptPageState extends State<RegisterEmailOptPage> {
                         Expanded(child: Text(
                           "00:30 Seconds",
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            height: 1.0,
-                            letterSpacing: 0,
-                            color: Color(0xFF808080),
-                          ),
+                          style: textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w400)
                         )),
                         Spacer(),
                         Expanded(child: TextButton(
@@ -155,13 +131,7 @@ class _RegisterEmailOptPageState extends State<RegisterEmailOptPage> {
                             child: Text(
                               "Resend OTP",
                               textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                height: 1.0,
-                                letterSpacing: 0,
-                                color: Color(0xFF4A3AFF),
-                              ),
+                              style: textTheme.labelMedium
                             )
                         ))
                       ],

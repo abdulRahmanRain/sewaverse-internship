@@ -41,8 +41,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return Scaffold(
       body: Stack(
         children: [
@@ -77,13 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text(
                         "Register Here",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.bold,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: Color(0xFF0A66C2),
-                        ),
+                        style: textTheme.headlineLarge
                       ),
                     ),
                     const SizedBox(height: 20,),
@@ -92,12 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         "Welcome to Service App!",
 
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w900,
-                          height: 1.2,
-                          letterSpacing: 0.15,
-                        ),
+                        style: textTheme.headlineMedium
                       ),
                     ),
                     const SizedBox(height: 30,),
@@ -295,13 +288,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       child: Text(
                         "Or continue with",
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          height: 1.0,
-                          letterSpacing: 0,
-                          color: Color(0xFF363636),
-                        ),
+                        style: textTheme.labelMedium
                       ),
                     ),
                     const SizedBox(height: 30,),
@@ -314,7 +301,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             icon: Image.asset("assets/images.png",height: 20,width: 20,)
                         ),
                         CustomIconContainer(
-                          icon: Icon(Icons.apple,size: 30,),
+                          icon: Icon(Icons.apple,size: 30),
                         ),
                         CustomIconContainer(
                             icon: Image.asset("assets/fb.png",height:40,width:40,)
