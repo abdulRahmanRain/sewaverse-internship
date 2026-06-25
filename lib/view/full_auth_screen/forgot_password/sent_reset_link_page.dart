@@ -26,6 +26,15 @@ class _SentResetLinkPageState extends State<SentResetLinkPage> {
     return Scaffold(
       body: Stack(
         children: [
+          Positioned(
+              top: -90,
+              right: -105,
+              child: SizedBox(
+                width: 464,
+                height: 460,
+                child: Image.asset("assets/Shape.png"),
+              )
+          ),
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -90,13 +99,6 @@ class _SentResetLinkPageState extends State<SentResetLinkPage> {
                     if (value == null || value.isEmpty) {
                       return "Email is required";
                     }
-
-                    if (!RegExp(
-                      r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-                    ).hasMatch(value)) {
-                      return "Enter a valid email";
-                    }
-
                     return null;
                   },
                 ),
@@ -116,7 +118,16 @@ class _SentResetLinkPageState extends State<SentResetLinkPage> {
                       width: double.infinity,
                       child: customElevatedButton(
                           text: "Sent Reset Link",
-                          onPressed: (){},
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const RegisterEmailOptPage(),
+                                ),
+                              );
+                            }
+                          },
                           elevation: 0,
                           backgroundColor: Color(0xFF4A3AFF),
                           borderRadius: 30
@@ -166,15 +177,7 @@ class _SentResetLinkPageState extends State<SentResetLinkPage> {
               ),
             ),
           ),
-          Positioned(
-              top: -90,
-              right: -105,
-              child: SizedBox(
-                width: 464,
-                height: 460,
-                child: Image.asset("assets/Shape.png"),
-              )
-          ),
+
         ],
       )
     );

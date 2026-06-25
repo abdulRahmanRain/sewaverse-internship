@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
+import 'package:todo_app/view/full_auth_screen/forgot_password/sent_reset_link_page.dart';
 import 'package:todo_app/view/full_auth_screen/register/register_screen.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_icon_container.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
@@ -132,7 +133,7 @@ class _LoginScreenState extends State<LoginScreens> {
                       alignment: Alignment.topRight,
                       child: TextButton(
                           onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>RegisterEmailOptPage()));
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>SentResetLinkPage()));
                           },
                           child: Text(
                             "Forgot your password?",
@@ -198,14 +199,12 @@ class _LoginScreenState extends State<LoginScreens> {
 
                         foregroundColor: Colors.black,
                         onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const RegisterScreen(),
-                              ),
-                            );
-                          }
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const RegisterScreen(),
+                            ),
+                          );
                         },
                         backgroundColor: Colors.white,
                         borderRadius: 30,
