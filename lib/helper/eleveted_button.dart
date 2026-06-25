@@ -8,8 +8,10 @@ Widget customElevatedButton({
   double fontSize = 16,
   FontWeight fontWeight = FontWeight.bold,
   double borderRadius = 16,
-  EdgeInsetsGeometry padding = const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+  EdgeInsetsGeometry padding =
+  const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
   double elevation = 5,
+  TextStyle? textStyle,
 }) {
   return ElevatedButton(
     onPressed: onPressed,
@@ -17,17 +19,18 @@ Widget customElevatedButton({
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
       padding: padding,
+      elevation: elevation,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadius),
       ),
-      elevation: elevation,
     ),
     child: Text(
       text,
-      style: TextStyle(
-        fontSize: fontSize,
-        fontWeight: fontWeight,
-      ),
+      style: textStyle ??
+          TextStyle(
+            fontSize: fontSize,
+            fontWeight: fontWeight,
+          ),
     ),
   );
 }

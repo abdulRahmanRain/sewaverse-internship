@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive/hive.dart';
+import 'package:todo_app/view/full_auth_screen/splash_screen.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
 import '../../bloc/post_app/post_state.dart';
@@ -73,7 +74,7 @@ class _DashboardHomeState extends State<DashboardHome> {
 
             ListTile(
               leading: const Icon(Icons.login),
-              title: const Text("auth"),
+              title: const Text("Login"),
               onTap: () {
                 Navigator.pop(context);
 
@@ -96,6 +97,19 @@ class _DashboardHomeState extends State<DashboardHome> {
                 }
               },
             ),
+            const SizedBox(height: 20,),
+            ListTile(
+              leading: const Icon(Icons.home_outlined),
+              title: const Text("Splash Screen"),
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SplashScreen(),
+                  ),
+                );
+              },
+            )
           ],
         ),
       ),
