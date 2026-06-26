@@ -6,9 +6,13 @@ import 'package:todo_app/bloc/gray_volf_bloc/gray_volf_state.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_grayvolf_back.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_icon_container.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
+import 'package:todo_app/view/gray_volf/list_services_bottom_sheet.dart';
+import 'package:todo_app/view/gray_volf/provider_list_screen.dart';
 import 'package:todo_app/view/gray_volf/service_card.dart';
+import 'package:todo_app/view/gray_volf/service_information_screen.dart';
 
 import '../../bloc/gray_volf_bloc/gray_volf_event.dart';
+import 'gray_volf_service_filterForm.dart';
 
 
 class JobListScreen extends StatefulWidget {
@@ -71,17 +75,22 @@ class _JobListScreenState extends State<JobListScreen> {
                       ),
                   ),
 
-                  CircleAvatar(
-                    radius: 30,
-                    child: ClipOval(
-                      child: Image.network(
-                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3qjP_5gAvJ8N215_VIWF_Y6UiWirqtE39yVI--POgD5l2PV7Uo3Y7gw9-&s=10",
-                        width: 60,
-                        height: 60,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(Icons.person_rounded);
-                        },
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ProviderListScreen()));
+                    },
+                    child: CircleAvatar(
+                      radius: 30,
+                      child: ClipOval(
+                        child: Image.network(
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3qjP_5gAvJ8N215_VIWF_Y6UiWirqtE39yVI--POgD5l2PV7Uo3Y7gw9-&s=10",
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.person_rounded);
+                          },
+                        ),
                       ),
                     ),
                   )
@@ -118,7 +127,7 @@ class _JobListScreenState extends State<JobListScreen> {
                         (index) {
                       return Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: _workCard(
+                        child: workCard(
                           bgColor: _selectedWorkType == index ? Color(0xFF1863F8) : Colors.white,
                           textColor: _selectedWorkType == index ? Colors.white : Color(0xFFC1C1C1),
                           text: _workCategory[index],
@@ -156,7 +165,16 @@ class _JobListScreenState extends State<JobListScreen> {
                                 name: job.name,
                                 tag: job.tag,
                                 description: job.description,
-                                imageUrl: job.imageUrl
+                                imageUrl: job.imageUrl,
+                              onDetailsTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceInformationScreen(
+                                      serviceImageUrl: job.imageUrl,
+                                      providerImageUrl: job.profileImage,
+                                      providerName: job.name,
+                                    description: job.description,
+                                    location: job.location,
+                                  )));
+                              },
                             );
                           },
                         );
@@ -176,16 +194,29 @@ class _JobListScreenState extends State<JobListScreen> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: (){
+            showModalBottomSheet(
+                context: context,
+                isScrollControlled:  true,
+                builder: (context){
+                  return ListServicesBottomSheet();
+                }
+            );
+          },
+        child: Icon(Icons.add),
+      ),
     );
   }
 }
 
 
-Widget _workCard({
+Widget workCard({
   required Color bgColor,
   required Color textColor,
   required String text,
-  required VoidCallback? onTap
+  required VoidCallback? onTap,
+  BoxBorder? border,
 }){
   return InkWell(
     onTap: onTap,
@@ -193,7 +224,8 @@ Widget _workCard({
       padding: EdgeInsets.symmetric(horizontal: 12,vertical: 12),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(8)
+        borderRadius: BorderRadius.circular(8),
+        border: border
       ),
       child: Text(text,textAlign: TextAlign.center,style: TextStyle(
         fontWeight: FontWeight.w500,

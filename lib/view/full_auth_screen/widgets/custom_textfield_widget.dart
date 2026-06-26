@@ -11,11 +11,14 @@ class CustomTextFieldWidget extends StatelessWidget {
   final Color? prefixIconColor;
   final Color? suffixIconColor;
   final int? maxLength;
+  final int? maxLine;
   final double? borderRadius;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
   final EdgeInsetsGeometry? contentPadding;
   final TextAlign textAlign;
+  final bool isReadOnly;
+  final Color? hintColor;
 
   const CustomTextFieldWidget({
     super.key,
@@ -27,11 +30,14 @@ class CustomTextFieldWidget extends StatelessWidget {
     this.prefixIconColor,
     this.suffixIconColor,
     this.maxLength,
+    this.maxLine = 1,
     this.borderRadius,
     this.keyboardType,
     this.inputFormatters,
     this.contentPadding,
     this.textAlign = TextAlign.left,
+    this.isReadOnly = false,
+    this.hintColor
   });
 
   @override
@@ -39,18 +45,20 @@ class CustomTextFieldWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return TextFormField(
       controller: controller,
-      style: textTheme.labelMedium?.copyWith(color: Colors.black,fontSize: 16),
+      readOnly: isReadOnly,
+      style: textTheme.labelMedium?.copyWith(color: Colors.black,fontSize: 16, ),
       validator: validator,
       textAlign: textAlign,
       maxLength: maxLength,
+      maxLines: maxLine,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
         hintText: hintText,
         counterText: "",
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           fontSize: 14,
-          color: Color(0xFF8A8A8A),
+          color: hintColor ??  const Color(0xFF8A8A8A),
         ),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,

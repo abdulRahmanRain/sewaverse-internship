@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/helper/eleveted_button.dart';
 
 class JobCard extends StatelessWidget {
   final String profileImage;
@@ -6,7 +7,7 @@ class JobCard extends StatelessWidget {
   final String tag;
   final String description;
   final String imageUrl;
-  final VoidCallback? onDetailsTap;
+  final VoidCallback onDetailsTap;
   final VoidCallback? onFavoriteTap;
 
   const JobCard({
@@ -16,7 +17,7 @@ class JobCard extends StatelessWidget {
     required this.tag,
     required this.description,
     required this.imageUrl,
-    this.onDetailsTap,
+    required this.onDetailsTap,
     this.onFavoriteTap,
   });
 
@@ -166,22 +167,7 @@ class JobCard extends StatelessWidget {
 
               SizedBox(
                 height: 38,
-                child: ElevatedButton(
-                  onPressed: (){},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor:  Color(0xFF1863F8),
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                  child: const Text("Get Details", style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 14,
-                    color: Color(0xFFFFFFFF),
-                    height: 1.0,
-                  ),),
-                ),
+                child: customElevatedButton(text: "Get Details", onPressed: onDetailsTap, elevation: 0,padding: EdgeInsetsGeometry.symmetric(horizontal: 16,vertical: 6),fontSize: 14,borderRadius: 20,backgroundColor: Color(0xFF1863F8) )
               ),
             ],
           ),

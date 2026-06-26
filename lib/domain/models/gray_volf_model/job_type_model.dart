@@ -4,6 +4,7 @@ class JobModel {
   final String description;
   final String profileImage;
   final String imageUrl;
+  final String location;
 
   JobModel({
     required this.name,
@@ -11,6 +12,7 @@ class JobModel {
     required this.description,
     required this.profileImage,
     required this.imageUrl,
+    required this.location,
   });
 
   factory JobModel.fromJson(Map<String, dynamic> json) {
@@ -20,6 +22,7 @@ class JobModel {
       description: json['description'] ?? '',
       profileImage: json['providerImageUrl'] ?? '',
       imageUrl: json['imageUrl'] ?? '',
+      location: json['location'] ?? '',
     );
   }
 
@@ -30,6 +33,7 @@ class JobModel {
       'description': description,
       'providerImageUrl': profileImage,
       'imageUrl': imageUrl,
+      'location': location,
     };
   }
 }
