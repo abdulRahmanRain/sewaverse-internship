@@ -5,6 +5,7 @@ import 'package:todo_app/view/full_auth_screen/register/register_screen.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_icon_container.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/label.dart';
+import 'package:todo_app/view/gray_volf/gray_volf_home_screen.dart';
 
 import '../forgot_password/register_email_opt_page.dart';
 
@@ -142,7 +143,7 @@ class _LoginScreenState extends State<LoginScreens> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const RegisterScreen(),
+                                builder: (context) => const JobListScreen(),
                               ),
                             );
                           }

@@ -7,7 +7,7 @@ class CustomTextFieldWidget extends StatelessWidget {
   final String? Function(String?)? validator;
 
   final Icon? prefixIcon;
-  final Icon? suffixIcon;
+  final Widget? suffixIcon;
   final Color? prefixIconColor;
   final Color? suffixIconColor;
   final int? maxLength;

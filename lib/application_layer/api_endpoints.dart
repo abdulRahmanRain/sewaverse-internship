@@ -9,6 +9,7 @@ class ApiEndPointsSewa{
   static String featuredServiceGroups = "$baseUrl/home/featured-services";
   static String featuredService = "/home/featured-services";
 
+
   static String offeredServiceResponse(String id) {
     return "$baseUrl/public/offered-service/$id";
   }
