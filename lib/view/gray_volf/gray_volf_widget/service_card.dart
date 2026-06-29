@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
+import 'package:todo_app/view/gray_volf/provider_profile.dart';
 
 class JobCard extends StatelessWidget {
   final String profileImage;
@@ -33,19 +34,25 @@ class JobCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// Header
           Row(
             children: [
-              CircleAvatar(
-                radius: 18,
-                backgroundImage:
-                profileImage.isNotEmpty
-                    ? NetworkImage(profileImage)
-                    : null,
-                child:
-                profileImage.isEmpty
-                    ? const Icon(Icons.person, size: 18)
-                    : null,
+              InkWell(
+                onTap: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProviderProfile(serviceImageUrl: imageUrl, providerImageUrl: profileImage, providerName: name, description: description, location: "",
+
+                  )));
+                },
+                child: CircleAvatar(
+                  radius: 18,
+                  backgroundImage:
+                  profileImage.isNotEmpty
+                      ? NetworkImage(profileImage)
+                      : null,
+                  child:
+                  profileImage.isEmpty
+                      ? const Icon(Icons.person, size: 18)
+                      : null,
+                ),
               ),
               const SizedBox(width: 8),
 

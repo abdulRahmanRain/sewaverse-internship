@@ -4,15 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:todo_app/bloc/gray_volf_bloc/gray_volf_bloc.dart';
 import 'package:todo_app/bloc/gray_volf_bloc/gray_volf_state.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_grayvolf_back.dart';
-import 'package:todo_app/view/full_auth_screen/widgets/custom_icon_container.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
-import 'package:todo_app/view/gray_volf/list_services_bottom_sheet.dart';
-import 'package:todo_app/view/gray_volf/provider_list_card.dart';
-import 'package:todo_app/view/gray_volf/service_card.dart';
-import 'package:todo_app/view/gray_volf/service_information_screen.dart';
 
 import '../../bloc/gray_volf_bloc/gray_volf_event.dart';
 import 'gray_volf_service_filterForm.dart';
+import 'gray_volf_widget/provider_list_card.dart';
 
 
 class ProviderListScreen extends StatefulWidget {

@@ -8,7 +8,7 @@ import 'package:todo_app/view/full_auth_screen/widgets/custom_icon_container.dar
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
 import 'package:todo_app/view/gray_volf/list_services_bottom_sheet.dart';
 import 'package:todo_app/view/gray_volf/provider_list_screen.dart';
-import 'package:todo_app/view/gray_volf/service_card.dart';
+import 'package:todo_app/view/gray_volf/gray_volf_widget/service_card.dart';
 import 'package:todo_app/view/gray_volf/service_information_screen.dart';
 
 import '../../bloc/gray_volf_bloc/gray_volf_event.dart';

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/label.dart';
+import 'package:todo_app/view/gray_volf/payment_screen.dart';
 
 class ServiceInformationScreen extends StatefulWidget {
   final String? serviceImageUrl;
@@ -83,7 +84,9 @@ class _ServiceInformationScreenState extends State<ServiceInformationScreen> {
                     const SizedBox(width: 15,),
                     Text("899", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),),
                     Spacer(),
-                    customElevatedButton(text: "Book", onPressed: (){},elevation: 0)
+                    customElevatedButton(text: "Book", onPressed: (){
+                      Navigator.push(context,MaterialPageRoute(builder: (context)=>PaymentScreen()));
+                    },elevation: 0)
                   ],
                 )
               ],
