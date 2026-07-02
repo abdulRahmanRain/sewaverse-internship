@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
 
 import '../../helper/eleveted_button.dart';
@@ -228,21 +229,23 @@ class _GrayVolfServiceFilterformState extends State<GrayVolfServiceFilterform> {
                 children: [
                   Expanded(child: customElevatedButton(
                       text: "Cancel",
-                      onPressed: (){},
+                      onPressed: (){
+                        context.pop();
+                      },
                       backgroundColor: Colors.white,
                       textStyle: textTheme.labelMedium,
                       elevation: 3
                   )),
                   const SizedBox(width: 20,),
                   Expanded(child: customElevatedButton(
-                      text: "List Service",
+                      text: "Apply",
                       onPressed: (){},
                       backgroundColor: Color(0xFF1863F8),
                       elevation: 0
                   )),
                 ],
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(height: 120,),
             ],
           ),
         ),

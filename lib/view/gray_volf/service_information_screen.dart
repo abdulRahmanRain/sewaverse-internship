@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/config/app_route_path.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/label.dart';
 import 'package:todo_app/view/gray_volf/payment_screen.dart';
@@ -85,10 +87,11 @@ class _ServiceInformationScreenState extends State<ServiceInformationScreen> {
                     Text("899", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),),
                     Spacer(),
                     customElevatedButton(text: "Book", onPressed: (){
-                      Navigator.push(context,MaterialPageRoute(builder: (context)=>PaymentScreen()));
+                      context.go("${AppRoutePath.grayHomeScreen}/${AppRoutePath.paymentScreen}");
                     },elevation: 0)
                   ],
-                )
+                ),
+                const SizedBox(height: 150,),
               ],
             ),
           ),

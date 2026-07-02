@@ -1,67 +1,105 @@
 import 'package:flutter/material.dart';
-import 'package:todo_app/view/full_auth_screen/splash_screen.dart';
-import 'package:todo_app/view/sewaverse_home_card/sewaverse_home_card_cubit.dart';
-import 'package:todo_app/view/sewaverse_home_card/sewaverse_home_card.dart';
-import 'package:todo_app/view/sewaverse_featured_card/featured_sewa_home_screen.dart';
-import 'package:todo_app/view/Isolated_home_page/user_screen.dart';
-import 'package:todo_app/view/todo_view/todo_home_page.dart';
+import 'package:go_router/go_router.dart';
+import 'package:todo_app/config/app_route_path.dart';
 
-import 'dashboard/post_dashboard_home.dart';
-
-class BaseScreen extends StatefulWidget {
-  const BaseScreen({super.key});
-
-  @override
-  State<BaseScreen> createState() => _BaseScreenState();
-}
-
-class _BaseScreenState extends State<BaseScreen> {
-  int currentIndex = 0;
-
-  final pages = [
-    const DashboardHome(),
-    const SewaverseHomeCard(),
-    const UserScreen(),
-    // const FeaturedSewaHomeScreen(),
-    // const TodoHomePage(),
-    const SplashScreen()
-  ];
+class BaseScreen extends StatelessWidget {
+  final Widget child;
+  const BaseScreen({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).uri.toString();
+
+    int currentIndex = 0;
+    if (location.startsWith('/dashboard')){
+      currentIndex = 0;
+    }
+    else if (location.startsWith(AppRoutePath.grayHomeScreen)) {currentIndex = 1;}
+    else if (location.startsWith('/sewaHome')) {currentIndex = 3;}
+    else if (location.startsWith('/todoHome')){ currentIndex = 4;}
+
     return Scaffold(
-      body: pages[currentIndex],
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            currentIndex = index;
-          });
+      body: child,
+
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+          context.go('/addTask');
         },
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.home),
-            label: 'sewaverse ',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.task),
-            label: 'Isolated',
-          ),
-          // NavigationDestination(
-          //   icon: Icon(Icons.miscellaneous_services),
-          //   label: 'Featured Sewa',
-          // ),
-          // NavigationDestination(
-          //   icon: Icon(Icons.flutter_dash),
-          //   label: 'Todo app',
-          // ),
-          NavigationDestination(
-            icon: Icon(Icons.flutter_dash),
-            label: 'Splash',
+        backgroundColor: Colors.purple,
+        child: const Icon(Icons.add, size: 32),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+
+
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 8,
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _buildTabItem(context, Icons.location_on,
+                "Home",
+                0,
+                '/dashboard',
+                null,
+                currentIndex
+            ),
+            _buildTabItem(
+                context,
+                Icons.work,
+                "Jobs",
+                1,
+                AppRoutePath.grayHomeScreen,
+                (){
+                  context.push(AppRoutePath.grayHomeScreen);
+                },
+                currentIndex
+            ),
+            _buildTabItem(
+                context,
+                Icons.add_circle_outline,
+                "Featured Sewa",
+                3,
+                '/sewaHome',
+                null,
+                currentIndex),
+            _buildTabItem(
+                context,
+                Icons.notifications,
+                "Tasks",
+                4,
+                '/todoHome',
+                null,
+                currentIndex),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTabItem(BuildContext context,
+      IconData icon,
+      String label,
+      int index,
+      String route,
+      VoidCallback? onTap,
+      int currentIndex) {
+    final isSelected = currentIndex == index;
+    return InkWell(
+      onTap: onTap ?? () => context.go(route),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, color: isSelected ? Colors.purple : Colors.grey),
+          Text(
+            label,
+            style: TextStyle(
+              color: isSelected ? Colors.purple : Colors.grey,
+              fontSize: 12,
+            ),
           ),
         ],
       ),

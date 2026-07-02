@@ -102,7 +102,7 @@ class _TodoHomePageState extends State<TodoHomePage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.go('/addTask');
+          context.go('/todoHome/addTask');
         },
         child: const Icon(Icons.add),
       ),

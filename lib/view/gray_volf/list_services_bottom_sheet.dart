@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/label.dart';
+
+import 'gray_volf_service_filterForm.dart';
 
 class ListServicesBottomSheet extends StatefulWidget {
    ListServicesBottomSheet({super.key});
@@ -161,7 +164,9 @@ class _ListServicesBottomSheetState extends State<ListServicesBottomSheet> {
                 children: [
                   Expanded(child: customElevatedButton(
                       text: "Cancel",
-                      onPressed: (){},
+                      onPressed: (){
+                        context.pop();
+                      },
                     backgroundColor: Colors.white,
                     textStyle: textTheme.labelMedium,
                     elevation: 3
@@ -169,13 +174,21 @@ class _ListServicesBottomSheetState extends State<ListServicesBottomSheet> {
                   const SizedBox(width: 20,),
                   Expanded(child: customElevatedButton(
                       text: "List Service",
-                      onPressed: (){},
+                      onPressed: (){
+                        showModalBottomSheet(
+                            context: context,
+                            isScrollControlled:  true,
+                            builder: (context){
+                              return GrayVolfServiceFilterform();
+                            }
+                        );
+                      },
                       backgroundColor: Color(0xFF1863F8),
                     elevation: 0
                   )),
                 ],
               ),
-              const SizedBox(height: 50,),
+              const SizedBox(height: 120,),
 
             ],
           ),

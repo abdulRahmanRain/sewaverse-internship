@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "831387944311",
+    "project_id": "sewaverse-intership-25ed3",
+    "storage_bucket": "sewaverse-intership-25ed3.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831387944311:android:b10cae0623880b91f64d72",
+        "android_client_info": {
+          "package_name": "com.example.todo_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831387944311-a96m2jdoqjeao5lp9bdvmd9g94dejhj4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.todo_app",
+            "certificate_hash": "b27d287b5cf9f38164ff2c9d3b3a7a7bf0c5833e"
+          }
+        },
+        {
+          "client_id": "831387944311-dcelnpc0nmanrseq8s58bbdt2ni059io.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrwEeyvYFpg_ohe3ROdyI582R0vRmmBE8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831387944311-dcelnpc0nmanrseq8s58bbdt2ni059io.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "831387944311-ms709kn6hj93ap3466q0qka7li42engf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.todoApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

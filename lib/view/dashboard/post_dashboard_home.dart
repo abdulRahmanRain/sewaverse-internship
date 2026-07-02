@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:todo_app/services/auth_service/auth_services.dart';
 import 'package:todo_app/view/full_auth_screen/splash_screen.dart';
+import '../../bloc/auth_service_bloc/auth_service_bloc.dart';
+import '../../bloc/auth_service_bloc/auth_services_event.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
 import '../../bloc/post_app/post_state.dart';
@@ -10,6 +14,7 @@ import '../../helper/post_helper/custom_container.dart';
 import '../../helper/text_field_helper.dart';
 import '../auth/login_screen.dart';
 import '../auth/user_home_screen.dart';
+import '../full_auth_screen/login/login_screen.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});
@@ -48,6 +53,7 @@ class _DashboardHomeState extends State<DashboardHome> {
   }
 
   final _authBox = Hive.box('authBox');
+  final AuthService _authService = AuthService();
 
 
   @override
@@ -100,16 +106,13 @@ class _DashboardHomeState extends State<DashboardHome> {
             const SizedBox(height: 20,),
             ListTile(
               leading: const Icon(Icons.home_outlined),
-              title: const Text("Splash Screen"),
-              onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const SplashScreen(),
-                  ),
-                );
+              title: const Text("LogOut"),
+              onTap: () {
+                context.read<AuthBloc>().add(SignOutRequested());
+                context.push("/login");
               },
             ),
+
             const SizedBox(height: 20,),
           ],
         ),

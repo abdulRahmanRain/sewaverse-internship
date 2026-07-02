@@ -88,6 +88,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                 // Pay Now Button
                 _buildPayNowButton(),
+
+                const SizedBox(height: 100),
+
               ],
             ),
           ),

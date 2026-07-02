@@ -38,9 +38,7 @@ class JobCard extends StatelessWidget {
             children: [
               InkWell(
                 onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ProviderProfile(serviceImageUrl: imageUrl, providerImageUrl: profileImage, providerName: name, description: description, location: "",
 
-                  )));
                 },
                 child: CircleAvatar(
                   radius: 18,

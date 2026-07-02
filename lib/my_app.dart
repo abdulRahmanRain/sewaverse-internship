@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo_app/application_layer/network/dio_crud.dart';
+import 'package:todo_app/bloc/auth_service_bloc/auth_service_bloc.dart';
 import 'package:todo_app/bloc/gray_volf_bloc/gray_volf_bloc.dart';
 import 'package:todo_app/bloc/sewaverse_home/sewaverse_bloc.dart';
 
@@ -12,6 +13,7 @@ import 'package:todo_app/cubit/sewaverse_cubit/sewaverse_cubit.dart';
 import 'package:todo_app/data/repository/gray_volf_repo/job_types_repo.dart';
 import 'package:todo_app/data/repository/sewa_repo/sewaverse_repo.dart';
 import 'package:todo_app/data/repository/sewaverse_home_repo/sewaverse_repo.dart';
+import 'package:todo_app/services/auth_service/auth_services.dart';
 import 'package:todo_app/view/auth/user_home_screen.dart';
 import 'package:todo_app/view/gray_volf/gray_volf_home_screen.dart';
 import 'package:todo_app/view/sewaverse_home_card/sewaverse_home_card.dart';
@@ -49,6 +51,11 @@ class MyApp extends StatelessWidget {
           ),
           child: const UserHomeScreen(),
         ),
+        BlocProvider(
+          create: (_) =>AuthBloc(
+            AuthService()
+          ),
+        ),
 
 
         BlocProvider(
@@ -83,7 +90,7 @@ class MyApp extends StatelessWidget {
 
             colorScheme: const ColorScheme.light(
               primary: Colors.black,
-              secondary: Colors.black,
+              secondary: Colors.white38,
 
             ),
 

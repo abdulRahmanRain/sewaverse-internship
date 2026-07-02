@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:todo_app/bloc/gray_volf_bloc/gray_volf_bloc.dart';
 import 'package:todo_app/bloc/gray_volf_bloc/gray_volf_state.dart';
+import 'package:todo_app/config/app_route_path.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_grayvolf_back.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_icon_container.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
@@ -167,13 +169,7 @@ class _JobListScreenState extends State<JobListScreen> {
                                 description: job.description,
                                 imageUrl: job.imageUrl,
                               onDetailsTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ServiceInformationScreen(
-                                      serviceImageUrl: job.imageUrl,
-                                      providerImageUrl: job.profileImage,
-                                      providerName: job.name,
-                                    description: job.description,
-                                    location: job.location,
-                                  )));
+                                context.go('${AppRoutePath.grayHomeScreen}/${AppRoutePath.serviceInformationScreen}', extra: job);
                               },
                             );
                           },
@@ -206,6 +202,7 @@ class _JobListScreenState extends State<JobListScreen> {
           },
         child: Icon(Icons.add),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
     );
   }
 }

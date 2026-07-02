@@ -5,6 +5,7 @@ class ProfileCard extends StatelessWidget {
   final String backgroundImageUrl;
   final String profileImageUrl;
   final String name;
+  final String followOrEditText;
   final String handle;
   final String posts;
   final String followers;
@@ -16,6 +17,7 @@ class ProfileCard extends StatelessWidget {
     required this.backgroundImageUrl,
     required this.profileImageUrl,
     required this.name,
+    required this.followOrEditText,
     required this.handle,
     required this.posts,
     required this.followers,
@@ -87,8 +89,8 @@ class ProfileCard extends StatelessWidget {
                       ),
                     ),
                     customElevatedButton(
-                        text: "Follow",
-                        onPressed: (){},
+                        text: followOrEditText,
+                        onPressed: onFollow,
                       backgroundColor: Colors.white,
                       textStyle: TextStyle(color: Colors.blue),
                       borderRadius: 30,
