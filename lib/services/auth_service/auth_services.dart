@@ -1,7 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
+
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -48,7 +46,4 @@ class AuthService {
   }
 
 
-  Stream<User?> authStateChanges() {
-    return _auth.authStateChanges();
-  }
 }
