@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final AuthService _authService = AuthService();
+  final AuthServices _authService = AuthServices();
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
-        if (_authService.getCurrentUser() != null) {
+        if (_authService.currentUser != null) {
           context.go('/dashboard');
         } else {
           Navigator.pushReplacement(

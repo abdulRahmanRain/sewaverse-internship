@@ -27,6 +27,10 @@ class _LoginScreenState extends State<LoginScreens> {
 
 
 
+  bool _isHidden = true;
+
+
+
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     try {
@@ -58,7 +62,7 @@ class _LoginScreenState extends State<LoginScreens> {
   void initState() {
     super.initState();
     GoogleSignIn.instance.initialize(
-      serverClientId: "831387944311-a96m2jdoqjeao5lp9bdvmd9g94dejhj4.apps.googleusercontent.com"
+       clientId : "831387944311-a96m2jdoqjeao5lp9bdvmd9g94dejhj4.apps.googleusercontent.com"
     );
   }
   @override
@@ -148,15 +152,20 @@ class _LoginScreenState extends State<LoginScreens> {
                         CustomTextFieldWidget(
                           controller: passwordController,
                           hintText: "•••••••••",
+                          obscureText: true,
+
                           prefixIcon: const Icon(
                             Icons.lock,
                             size: 20,
                             color: Color(0xFF1863F8),
                           ),
-                          suffixIcon: const Icon(
-                            Icons.visibility_off,
-                            size: 20,
-                            color: Color(0xFF1863F8),
+                          suffixIcon:  IconButton(
+                            icon: Icon(_isHidden ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _isHidden = !_isHidden;
+                              });
+                            },
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
@@ -196,8 +205,8 @@ class _LoginScreenState extends State<LoginScreens> {
                             onPressed: () async {
                               if (_formKey.currentState!.validate()) {
                                 try {
-                                  final authService = AuthService();
-                                  final user = await authService.signInWithEmail(
+                                  final authService = AuthServices();
+                                  final user = await authService.signIn(
                                     emailController.text.trim(),
                                     passwordController.text.trim(),
                                   );

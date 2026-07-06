@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) =>AuthBloc(
-            AuthService()
+            AuthServices()
           ),
         ),
 

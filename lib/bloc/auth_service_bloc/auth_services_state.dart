@@ -29,3 +29,13 @@ class AuthError extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+
+/// New state: list of saved accounts
+class AuthAccountsListed extends AuthState {
+  final List<String> accounts;
+
+  AuthAccountsListed(this.accounts);
+
+  @override
+  List<Object?> get props => [accounts];
+}

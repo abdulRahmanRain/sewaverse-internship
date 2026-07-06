@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive/hive.dart';
+import 'package:http/http.dart' as _storage;
 import 'package:todo_app/services/auth_service/auth_services.dart';
-import 'package:todo_app/view/full_auth_screen/splash_screen.dart';
 import '../../bloc/auth_service_bloc/auth_service_bloc.dart';
 import '../../bloc/auth_service_bloc/auth_services_event.dart';
+import '../../bloc/auth_service_bloc/auth_services_state.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
 import '../../bloc/post_app/post_state.dart';
@@ -14,7 +15,7 @@ import '../../helper/post_helper/custom_container.dart';
 import '../../helper/text_field_helper.dart';
 import '../auth/login_screen.dart';
 import '../auth/user_home_screen.dart';
-import '../full_auth_screen/login/login_screen.dart';
+import '../full_auth_screen/register/register_screen.dart';
 
 class DashboardHome extends StatefulWidget {
   const DashboardHome({super.key});
@@ -38,6 +39,9 @@ class _DashboardHomeState extends State<DashboardHome> {
 
   final List<String> users = ["Abdul Rahman", "Rabin Bista", "Nabin Raj Joshi"];
 
+
+
+
   @override
   void dispose() {
     for (var controller in commentControllers.values) {
@@ -53,7 +57,9 @@ class _DashboardHomeState extends State<DashboardHome> {
   }
 
   final _authBox = Hive.box('authBox');
-  final AuthService _authService = AuthService();
+  final AuthServices _authService = AuthServices();
+
+
 
 
   @override
@@ -104,15 +110,96 @@ class _DashboardHomeState extends State<DashboardHome> {
               },
             ),
             const SizedBox(height: 20,),
+
             ListTile(
-              leading: const Icon(Icons.home_outlined),
+              leading: const Icon(Icons.switch_account),
+              title: const Text("Switch Account"),
+              onTap: () {
+                context.read<AuthBloc>().add(ListAccountsRequested());
+
+                showDialog(
+                  context: context,
+                  builder: (ctx) {
+                    return BlocConsumer<AuthBloc, AuthState>(
+                      listener: (ctx, state) {
+                        if (state is AuthAuthenticated) {
+                          Navigator.pop(ctx);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (_) => const UserHomeScreen()),
+                          );
+                        } else if (state is AuthError) {
+                          Navigator.pop(ctx);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(state.message)),
+                          );
+                        }
+                      },
+                      builder: (ctx, state) {
+                        if (state is AuthAccountsListed) {
+                          if (state.accounts.isEmpty) {
+                            return const AlertDialog(
+                              title: Text("No Saved Accounts"),
+                              content: Text("Please add another account first."),
+                            );
+                          }
+                          return AlertDialog(
+                            title: const Text("Choose Account"),
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: state.accounts.map((email) {
+                                return ListTile(
+                                  leading: const Icon(Icons.account_circle),
+                                  title: Text(email),
+                                  onTap: () {
+                                    context.read<AuthBloc>().add(SwitchAccountRequested(email));
+                                  },
+                                );
+                              }).toList(),
+                            ),
+                          );
+                        }
+                        if (state is AuthLoading) {
+                          return const AlertDialog(
+                            content: SizedBox(
+                              height: 80,
+                              child: Center(child: CircularProgressIndicator()),
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
+                    );
+                  },
+                );
+              },
+            ),
+            const SizedBox(height: 20,),
+
+
+            ListTile(
+              leading: const Icon(Icons.person_add),
+              title: const Text("Add Another Account"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const RegisterScreen(),
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 20,),
+
+            ListTile(
+              leading: const Icon(Icons.logout),
               title: const Text("LogOut"),
               onTap: () {
                 context.read<AuthBloc>().add(SignOutRequested());
                 context.push("/login");
               },
             ),
-
             const SizedBox(height: 20,),
           ],
         ),

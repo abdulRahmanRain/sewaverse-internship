@@ -28,3 +28,12 @@ class SignInRequested extends AuthEvent {
 class SignOutRequested extends AuthEvent {}
 
 class AuthCheckRequested extends AuthEvent {}
+
+/// New event: switch to another account
+class SwitchAccountRequested extends AuthEvent {
+  final String email;
+  SwitchAccountRequested(this.email);   // password hata diya
+}
+
+/// New event: list all saved accounts
+class ListAccountsRequested extends AuthEvent {}

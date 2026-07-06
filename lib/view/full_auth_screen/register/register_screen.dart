@@ -24,6 +24,8 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   final _formKey = GlobalKey<FormState>();
 
+  bool _isHidden = true;
+
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final dobController = TextEditingController();
@@ -32,6 +34,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
+
+  Future<void> pickDOB(BuildContext context, TextEditingController dobController) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1980),
+      lastDate: DateTime.now(),
+    );
+
+    if (picked != null) {
+      dobController.text = "${picked.day}/${picked.month}/${picked.year}";
+    }
+  }
+
+
+  String? selectedValue;
+
+
 
   Future<void> _handleGoogleSignIn(BuildContext context) async {
     try {
@@ -172,9 +192,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     controller: dobController,
                                     hintText: "DOB",
                                     validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? "DOB is required"
-                                        : null,
+                                    value == null || value.isEmpty ? "DOB is required" : null,
+                                    isReadOnly: true,
+                                    suffixIcon: const Icon(Icons.calendar_today),
+                                    onTap: () => pickDOB(context, dobController),
                                   ),
                                 ],
                               ),
@@ -186,14 +207,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 children: [
                                   AppLabel(text: "Gender"),
                                   const SizedBox(height: 10),
-                                  CustomTextFieldWidget(
-                                    controller: genderController,
-                                    hintText: "Gender",
-                                    validator: (value) =>
-                                    value == null || value.isEmpty
-                                        ? "Gender is required"
-                                        : null,
-                                  ),
+
+
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 12),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF3F3F3),
+                                      borderRadius: BorderRadius.circular(20)
+                                    ),
+                                    child: DropdownButton<String>(
+                                      value: selectedValue,
+                                      underline: const SizedBox(),
+                                      isExpanded: true,
+                                      hint: const Text("Select Gender"),
+                                      items: <String>["Male", "Female", "Other"].map((String item) {
+                                        return DropdownMenuItem<String>(
+                                          value: item,
+                                          child: Text(item),
+                                        );
+                                      }).toList(),
+                                      onChanged: (String? newValue) {
+                                        selectedValue = newValue;
+                                      },
+                                    ),
+                                  )
+
+
                                 ],
                               ),
                             ),
@@ -230,6 +269,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         CustomTextFieldWidget(
                           controller: passwordController,
                           hintText: "Enter Password",
+                          obscureText: _isHidden,
+                          suffixIcon: IconButton(
+                            icon: Icon(_isHidden ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _isHidden = !_isHidden;
+                              });
+                            },
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Password is required";
@@ -246,6 +294,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         CustomTextFieldWidget(
                           controller: confirmPasswordController,
                           hintText: "Re-Enter Password",
+                          obscureText: true,
+                          suffixIcon: IconButton(
+                            icon: Icon(_isHidden ? Icons.visibility_off : Icons.visibility),
+                            onPressed: () {
+                              setState(() {
+                                _isHidden = !_isHidden;
+                              });
+                            },
+                          ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               return "Confirm password is required";

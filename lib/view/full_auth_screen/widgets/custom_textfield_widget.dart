@@ -18,7 +18,9 @@ class CustomTextFieldWidget extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final TextAlign textAlign;
   final bool isReadOnly;
+  final bool  obscureText;
   final Color? hintColor;
+  final VoidCallback? onTap;
 
   const CustomTextFieldWidget({
     super.key,
@@ -37,7 +39,9 @@ class CustomTextFieldWidget extends StatelessWidget {
     this.contentPadding,
     this.textAlign = TextAlign.left,
     this.isReadOnly = false,
-    this.hintColor
+    this.obscureText = false,
+    this.hintColor,
+    this.onTap
   });
 
   @override
@@ -45,12 +49,14 @@ class CustomTextFieldWidget extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return TextFormField(
       controller: controller,
+      onTap: onTap,
       readOnly: isReadOnly,
       style: textTheme.labelMedium?.copyWith(color: Colors.black,fontSize: 16, ),
       validator: validator,
       textAlign: textAlign,
       maxLength: maxLength,
       maxLines: maxLine,
+      obscureText: obscureText,
       keyboardType: keyboardType,
       inputFormatters: inputFormatters,
       decoration: InputDecoration(
