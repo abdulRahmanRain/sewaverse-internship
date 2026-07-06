@@ -25,15 +25,20 @@ class SignInRequested extends AuthEvent {
   List<Object?> get props => [email, password];
 }
 
-class SignOutRequested extends AuthEvent {}
+class SignOutRequested extends AuthEvent {
+  final String email;
+  SignOutRequested(this.email);
+}
 
 class AuthCheckRequested extends AuthEvent {}
 
-/// New event: switch to another account
+
 class SwitchAccountRequested extends AuthEvent {
   final String email;
-  SwitchAccountRequested(this.email);   // password hata diya
+  SwitchAccountRequested(this.email);
 }
 
-/// New event: list all saved accounts
+
 class ListAccountsRequested extends AuthEvent {}
+
+class GoogleSignInRequested extends AuthEvent {}

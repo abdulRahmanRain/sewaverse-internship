@@ -25,25 +25,26 @@ final router = GoRouter(
         path: '/',
         builder: (context,state) => const SplashScreen()
     ),
-    ShellRoute(
-      builder: (context, state, child) {
-        return BaseScreen(child: child);
-      },
-      routes: [
-        GoRoute(
-          path: '/dashboard',
-          builder: (context, state) => const DashboardHome(),
-        ),
-        GoRoute(
-          path: '/todoHome',
-          builder: (context, state) => const TodoHomePage(),
-        ),
-        GoRoute(
-          path: '/sewaHome',
-          builder: (context, state) => const FeaturedSewaHomeScreen(),
-        ),
-      ],
-    ),
+
+    // ShellRoute(
+    //   builder: (context, state, child) {
+    //     return BaseScreen(child: child);
+    //   },
+    //   routes: [
+    //     GoRoute(
+    //       path: '/dashboard',
+    //       builder: (context, state) => const DashboardHome(),
+    //     ),
+    //     GoRoute(
+    //       path: '/todoHome',
+    //       builder: (context, state) => const TodoHomePage(),
+    //     ),
+    //     GoRoute(
+    //       path: '/sewaHome',
+    //       builder: (context, state) => const FeaturedSewaHomeScreen(),
+    //     ),
+    //   ],
+    // ),
 
     // Job shell
     ShellRoute(

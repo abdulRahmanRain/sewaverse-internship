@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -68,6 +70,38 @@ class AuthServices {
     debugPrint("Account");
     accounts.remove(email);
     await _storage.write(key: _accountsListKey, value: accounts.join(","));
+  }
+
+
+  Future<User?> signInWithGoogle() async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+
+      final GoogleSignInAccount googleUser =
+      await googleSignIn.authenticate();
+
+      final GoogleSignInAuthentication googleAuth =
+          googleUser.authentication;
+
+      final credential = GoogleAuthProvider.credential(
+        idToken: googleAuth.idToken,
+      );
+
+      final userCredential =
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      await _addAccountToList(googleUser.email);
+
+      return userCredential.user;
+    } on GoogleSignInException catch (e) {
+      if (e.code == GoogleSignInExceptionCode.canceled) {
+        return null;
+      }
+      throw Exception("Google Sign-In failed: ${e.description ?? e.code}");
+    } on FirebaseAuthException catch (e) {
+      throw Exception("Firebase error: ${e.message}");
+    } catch (e) {
+      throw Exception("Google Sign-In failed: $e");
+    }
   }
 
 }

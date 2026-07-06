@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 Widget customElevatedButton({
-  required String text,
-  required VoidCallback onPressed,
+  required VoidCallback? onPressed,
+  String? text,
+  Widget? child,
+  bool isLoading = false,
   Color backgroundColor = Colors.blue,
   Color foregroundColor = Colors.white,
   double fontSize = 16,
@@ -14,7 +16,7 @@ Widget customElevatedButton({
   TextStyle? textStyle,
 }) {
   return ElevatedButton(
-    onPressed: onPressed,
+    onPressed: isLoading ? null : onPressed,
     style: ElevatedButton.styleFrom(
       backgroundColor: backgroundColor,
       foregroundColor: foregroundColor,
@@ -24,13 +26,23 @@ Widget customElevatedButton({
         borderRadius: BorderRadius.circular(borderRadius),
       ),
     ),
-    child: Text(
-      text,
-      style: textStyle ??
-          TextStyle(
-            fontSize: fontSize,
-            fontWeight: fontWeight,
-          ),
-    ),
+    child: isLoading
+        ? const SizedBox(
+      height: 20,
+      width: 20,
+      child: CircularProgressIndicator(
+        strokeWidth: 2,
+        color: Colors.white,
+      ),
+    )
+        : (child ??
+        Text(
+          text ?? "",
+          style: textStyle ??
+              TextStyle(
+                fontSize: fontSize,
+                fontWeight: fontWeight,
+              ),
+        )),
   );
 }

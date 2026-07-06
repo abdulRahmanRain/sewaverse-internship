@@ -30,7 +30,7 @@ class AuthError extends AuthState {
   List<Object?> get props => [message];
 }
 
-/// New state: list of saved accounts
+
 class AuthAccountsListed extends AuthState {
   final List<String> accounts;
 
@@ -39,3 +39,27 @@ class AuthAccountsListed extends AuthState {
   @override
   List<Object?> get props => [accounts];
 }
+
+
+class GoogleSignInSuccess extends AuthState {
+  final User user;
+
+  GoogleSignInSuccess(this.user);
+
+  @override
+  List<Object?> get props => [user];
+}
+
+class GoogleAuthLoading extends AuthState {}
+class GoogleAuthError extends AuthState {
+  final String message;
+
+  GoogleAuthError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class GoogleAuthCancelled extends AuthState {}
+
+class EmailAndPasswordWrong extends AuthState{}

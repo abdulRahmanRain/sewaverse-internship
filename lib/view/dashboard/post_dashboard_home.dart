@@ -10,6 +10,7 @@ import '../../bloc/auth_service_bloc/auth_services_state.dart';
 import '../../bloc/post_app/post_bloc.dart';
 import '../../bloc/post_app/post_event.dart';
 import '../../bloc/post_app/post_state.dart';
+import '../../config/app_route_path.dart';
 import '../../constants/app_color.dart';
 import '../../helper/post_helper/custom_container.dart';
 import '../../helper/text_field_helper.dart';
@@ -124,10 +125,7 @@ class _DashboardHomeState extends State<DashboardHome> {
                       listener: (ctx, state) {
                         if (state is AuthAuthenticated) {
                           Navigator.pop(ctx);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (_) => const UserHomeScreen()),
-                          );
+                          context.pushReplacement(AppRoutePath.grayHomeScreen);
                         } else if (state is AuthError) {
                           Navigator.pop(ctx);
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -196,8 +194,11 @@ class _DashboardHomeState extends State<DashboardHome> {
               leading: const Icon(Icons.logout),
               title: const Text("LogOut"),
               onTap: () {
-                context.read<AuthBloc>().add(SignOutRequested());
-                context.push("/login");
+                final userEmail = _authService.currentUser?.email;
+                context.read<AuthBloc>().add(SignOutRequested(
+                  userEmail!
+                ));
+                context.pushReplacement("/login");
               },
             ),
             const SizedBox(height: 20,),

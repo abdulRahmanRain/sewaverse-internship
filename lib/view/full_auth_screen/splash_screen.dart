@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:todo_app/config/app_route_path.dart';
 import 'package:todo_app/services/auth_service/auth_services.dart';
 import 'package:todo_app/view/auth/login_screen.dart';
 import 'package:todo_app/view/dashboard/post_dashboard_home.dart';
@@ -24,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(const Duration(seconds: 3), () {
       if (mounted) {
         if (_authService.currentUser != null) {
-          context.go('/dashboard');
+          context.go(AppRoutePath.grayHomeScreen);
         } else {
           Navigator.pushReplacement(
             context,

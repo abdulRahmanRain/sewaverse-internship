@@ -1,8 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:todo_app/bloc/auth_service_bloc/auth_service_bloc.dart';
 import 'package:todo_app/bloc/auth_service_bloc/auth_services_state.dart';
 import 'package:todo_app/helper/eleveted_button.dart';
@@ -49,43 +47,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
 
-  String? selectedValue;
+  String? selectedValue = "Male";
 
 
 
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
-      final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
-
-      UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      if (userCredential.user != null && context.mounted) {
-        context.go("/dashboard");
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Google Sign-In failed: $e")),
-        );
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    GoogleSignIn.instance.initialize(
-        serverClientId: "831387944311-a96m2jdoqjeao5lp9bdvmd9g94dejhj4.apps.googleusercontent.com"
-    );
-  }
 
   @override
   void dispose() {
@@ -108,9 +75,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             context.go("/login");
-          } else if (state is AuthError) {
+          } else if (state is GoogleSignInSuccess){
+            context.go("/dashboard");
+          }else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
+            );
+          }
+          else if (state is GoogleAuthError){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    Icon(Icons.error, color: Colors.white),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                backgroundColor: Colors.redAccent,
+                duration: Duration(seconds: 3),
+              ),
             );
           }
         },
@@ -227,7 +219,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         );
                                       }).toList(),
                                       onChanged: (String? newValue) {
-                                        selectedValue = newValue;
+                                       setState(() {
+                                         selectedValue = newValue;
+                                       });
                                       },
                                     ),
                                   )
@@ -258,10 +252,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: emailController,
                           hintText: "Email Address",
                           keyboardType: TextInputType.emailAddress,
-                          validator: (value) =>
-                          value == null || value.isEmpty
-                              ? "Email is required"
-                              : null,
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "Email is required";
+                            }
+                            final emailRegex = RegExp(
+                              "^[A-Za-z][A-Za-z0-9]*@[A-Za-z0-9]+\.com",
+                            );
+
+                            if (!emailRegex.hasMatch(value.trim())) {
+                              return "Please enter a valid email address";
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         AppLabel(text: "Enter password"),
@@ -282,11 +285,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             if (value == null || value.isEmpty) {
                               return "Password is required";
                             }
-                            if (value.length < 6) {
-                              return "Minimum 6 characters";
+                            if (value.length < 8) {
+                              return "Minimum 8 characters";
                             }
+
+                            String pattern = r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$';
+                            RegExp regex = RegExp(pattern);
+
+                            if (!regex.hasMatch(value)) {
+                              return "Must include uppercase, lowercase, number & special character";
+                            }
+
                             return null;
-                          },
+                          }
                         ),
                         const SizedBox(height: 20),
                         AppLabel(text: "Re-enter password"),
@@ -382,21 +393,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             GestureDetector(
-                              onTap: () => _handleGoogleSignIn(context),
-                              child: CustomIconContainer(
-                                icon: Image.asset("assets/images.png", height: 20, width: 20),
+                              onTap: () {
+                                context.read<AuthBloc>().add(GoogleSignInRequested());
+                              },
+                              child: state is GoogleAuthLoading
+                                  ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.blue,
+                                ),
+                              )
+                                  : CustomIconContainer(
+                                icon: Image.asset(
+                                  "assets/images.png",
+                                  height: 20,
+                                  width: 20,
+                                ),
                               ),
                             ),
-                            const CustomIconContainer(
-                              icon: Icon(Icons.apple, size: 30),
-                            ),
-                            CustomIconContainer(
-                              icon: Image.asset("assets/fb.png",
-                                  height: 40, width: 40),
-                            ),
+                            // const CustomIconContainer(
+                            //   icon: Icon(Icons.apple, size: 30),
+                            // ),
+                            // CustomIconContainer(
+                            //   icon: Image.asset("assets/fb.png",
+                            //       height: 40, width: 40),
+                            // ),
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 120),
                       ],
                     ),
                   ),

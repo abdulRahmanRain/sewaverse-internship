@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../services/auth_service/auth_services.dart';
 import 'auth_services_event.dart';
@@ -34,16 +35,28 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         } else {
           emit(AuthUnauthenticated());
         }
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          emit(AuthError("No user found for that email."));
+        } else if (e.code == 'wrong-password') {
+          emit(AuthError("Incorrect password. Please try again."));
+        } else if (e.code == 'invalid-email') {
+          emit(AuthError("Invalid email format."));
+        } else {
+          emit(AuthError("Login failed: ${e.message}"));
+        }
       } catch (e) {
-        emit(AuthError(e.toString()));
+        emit(AuthError("Unexpected error: $e"));
       }
     });
+
 
     // SignOut
     on<SignOutRequested>((event, emit) async {
       emit(AuthLoading());
       try {
         await _authService.signOut();
+        await _authService.removeAccount(event.email);
         emit(AuthUnauthenticated());
       } catch (e) {
         emit(AuthError(e.toString()));
@@ -88,6 +101,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(AuthAccountsListed(accounts));
       } catch (e) {
         emit(AuthError(e.toString()));
+      }
+    });
+
+
+    // SignIn with google
+    on<GoogleSignInRequested>((event, emit) async {
+      emit(GoogleAuthLoading());
+
+      try {
+        final user = await _authService.signInWithGoogle();
+
+        if (user != null) {
+          emit(GoogleSignInSuccess(user));
+        } else {
+          emit(GoogleAuthCancelled());
+        }
+      } catch (e) {
+        emit(GoogleAuthError(e.toString()));
       }
     });
   }

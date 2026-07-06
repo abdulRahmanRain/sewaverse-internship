@@ -9,8 +9,8 @@ import 'package:todo_app/view/full_auth_screen/register/register_screen.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/custom_textfield_widget.dart';
 import 'package:todo_app/view/full_auth_screen/widgets/label.dart';
 import '../../../bloc/auth_service_bloc/auth_service_bloc.dart';
+import '../../../bloc/auth_service_bloc/auth_services_event.dart';
 import '../../../bloc/auth_service_bloc/auth_services_state.dart';
-import '../../../services/auth_service/auth_services.dart';
 import '../widgets/custom_icon_container.dart';
 
 class LoginScreens extends StatefulWidget {
@@ -32,39 +32,7 @@ class _LoginScreenState extends State<LoginScreens> {
 
 
 
-  Future<void> _handleGoogleSignIn(BuildContext context) async {
-    try {
-      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
-      final GoogleSignInAccount googleUser = await googleSignIn.authenticate();
 
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
-
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
-
-      UserCredential userCredential =
-      await FirebaseAuth.instance.signInWithCredential(credential);
-
-      if (userCredential.user != null && context.mounted) {
-        context.go("/dashboard");
-      }
-    } catch (e) {
-      if (context.mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Google Sign-In failed: $e")),
-        );
-      }
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    GoogleSignIn.instance.initialize(
-       clientId : "831387944311-a96m2jdoqjeao5lp9bdvmd9g94dejhj4.apps.googleusercontent.com"
-    );
-  }
   @override
   void dispose() {
     emailController.dispose();
@@ -86,12 +54,36 @@ class _LoginScreenState extends State<LoginScreens> {
               SnackBar(content: Text(state.message)),
             );
           }
+          else if (state is GoogleAuthCancelled) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Google Sign-In cancelled by user")),
+            );
+          }
+          else if (state is GoogleAuthError){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  children: [
+                    Icon(Icons.error, color: Colors.white),
+                    SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        state.message,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                backgroundColor: Colors.redAccent,
+                duration: Duration(seconds: 3),
+              ),
+            );
+          }
         },
         builder: (context, state) {
-          if (state is AuthLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
           return Stack(
             children: [
               Positioned(
@@ -152,7 +144,7 @@ class _LoginScreenState extends State<LoginScreens> {
                         CustomTextFieldWidget(
                           controller: passwordController,
                           hintText: "•••••••••",
-                          obscureText: true,
+                          obscureText: _isHidden,
 
                           prefixIcon: const Icon(
                             Icons.lock,
@@ -201,28 +193,30 @@ class _LoginScreenState extends State<LoginScreens> {
                         SizedBox(
                           width: double.infinity,
                           child: customElevatedButton(
-                            text: "Sign in",
-                            onPressed: () async {
+                            text: state is AuthLoading ? "" : "Sign in",
+                            onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                try {
-                                  final authService = AuthServices();
-                                  final user = await authService.signIn(
+                                context.read<AuthBloc>().add(
+                                  SignInRequested(
                                     emailController.text.trim(),
                                     passwordController.text.trim(),
-                                  );
-                                  if (user != null) {
-                                    context.go("/dashboard");
-                                  }
-                                } catch (e) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Signin failed: $e")),
-                                  );
-                                }
+                                  ),
+                                );
                               }
                             },
                             backgroundColor: const Color(0xFF1863F8),
                             borderRadius: 30,
                             elevation: 0,
+                            child: state is AuthLoading
+                                ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
+                              ),
+                            )
+                                : null, // default text will show if not loading
                           ),
                         ),
 
@@ -309,21 +303,36 @@ class _LoginScreenState extends State<LoginScreens> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             GestureDetector(
-                              onTap: () => _handleGoogleSignIn(context),
-                              child: CustomIconContainer(
-                                icon: Image.asset("assets/images.png", height: 20, width: 20),
+                              onTap: () {
+                                context.read<AuthBloc>().add(GoogleSignInRequested());
+                              },
+                              child: state is GoogleAuthLoading
+                                  ? const SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.blue,
+                                ),
+                              )
+                                  : CustomIconContainer(
+                                icon: Image.asset(
+                                  "assets/images.png",
+                                  height: 20,
+                                  width: 20,
+                                ),
                               ),
                             ),
-                            const CustomIconContainer(
-                              icon: Icon(Icons.apple, size: 30),
-                            ),
-                            CustomIconContainer(
-                              icon: Image.asset("assets/fb.png",
-                                  height: 40, width: 40),
-                            ),
+                            // const CustomIconContainer(
+                            //   icon: Icon(Icons.apple, size: 30),
+                            // ),
+                            // CustomIconContainer(
+                            //   icon: Image.asset("assets/fb.png",
+                            //       height: 40, width: 40),
+                            // ),
                           ],
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 120),
                       ],
                     ),
                   ),
